@@ -25,6 +25,7 @@ export async function renderPostEdit(ctx: Ctx): Promise<string> {
   }
 
   const categories = await ctx.db.all('SELECT * FROM categories ORDER BY id') as Row[];
+  const postMax = await ctx.settings.int('post_max_length', 3000, 100, 100000);
   const isEdit = Boolean(post);
   const p = post as Row | null;
 
@@ -58,8 +59,8 @@ export async function renderPostEdit(ctx: Ctx): Promise<string> {
   h += '\t\t\t\t<button type="button" data-md="link" title="链接">🔗</button>\n';
   h += '\t\t\t\t<button type="button" data-md="image" title="图片">🖼</button>\n';
   h += '\t\t\t\t<label class="upload-label" title="上传图片">\n\t\t\t\t\t<button type="button" id="editor-upload" style="pointer-events:none">⬆️</button>\n\t\t\t\t\t<input type="file" id="editor-upload-input" accept="image/*" style="display:none">\n\t\t\t\t</label>\n\t\t\t</div>\n';
-  h += `\t\t\t<textarea class="textarea" id="editor-textarea" name="content" rows="16" maxlength="3000" required\n\t\t\t\tplaceholder="在这里写下你的内容…&#10;&#10;支持 Markdown：&#10;# 标题&#10;**粗体** *斜体*&#10;- 列表项&#10;![图片](地址)">${e(p?.content ?? '')}</textarea>\n`;
-  h += '\t\t\t<span class="hint">最多 3000 字</span>\n\t\t</div>\n\n';
+  h += `\t\t\t<textarea class="textarea" id="editor-textarea" name="content" rows="16" maxlength="${postMax}" required\n\t\t\t\tplaceholder="在这里写下你的内容…&#10;&#10;支持 Markdown：&#10;# 标题&#10;**粗体** *斜体*&#10;- 列表项&#10;![图片](地址)">${e(p?.content ?? '')}</textarea>\n`;
+  h += `\t\t\t<span class="hint">最多 ${postMax} 字</span>\n\t\t</div>\n\n`;
   h += '\t\t<div class="field">\n\t\t\t<label>👀 实时预览</label>\n\t\t\t<div class="editor-preview markdown card" id="editor-preview" style="box-shadow:none">预览区</div>\n\t\t</div>\n\n';
   h += '\t\t<div style="display:flex;gap:10px;margin-top:22px">\n';
   h += `\t\t\t<button class="btn btn-primary btn-lg" type="submit">🚀 ${isEdit ? '保存修改' : '发布帖子'}</button>\n`;

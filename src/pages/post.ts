@@ -14,6 +14,7 @@ export async function renderPost(ctx: Ctx, postId: number): Promise<string> {
     return '<div class="empty card"><div class="empty-icon">😕</div><p>帖子不存在或已被隐藏</p><a class="btn" href="/">返回首页</a></div>';
   }
   const p = post as Row;
+  const commentMax = await ctx.settings.int('comment_max_length', 3000, 100, 100000);
 
   await ctx.db.run('UPDATE posts SET view_count = COALESCE(view_count,0) + 1 WHERE id = ?', [postId]);
   p.view_count = Number(p.view_count) + 1;
@@ -109,7 +110,7 @@ export async function renderPost(ctx: Ctx, postId: number): Promise<string> {
   if (viewer && p.status !== 'locked') {
     h += `\t\t\t\t\t<form id="comment-form" class="comment-compose" data-ajax="posts/${postId}/comments" data-method="POST" data-reload="1">\n`;
     h += '\t\t\t\t\t\t<input type="hidden" name="parent_id" value="">\n';
-    h += '\t\t\t\t\t\t<textarea class="textarea" name="content" required maxlength="3000" placeholder="写下你的评论……"></textarea>\n';
+    h += `\t\t\t\t\t\t<textarea class="textarea" name="content" required maxlength="${commentMax}" placeholder="写下你的评论……"></textarea>\n`;
     h += '\t\t\t\t\t\t<div class="comment-compose-foot">\n\t\t\t\t\t\t\t<span class="hint">支持 Markdown</span>\n\t\t\t\t\t\t\t<button class="btn btn-primary" type="submit">发布评论</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</form>\n';
   } else if (!viewer) {
     h += '\t\t\t\t\t<div class="comment-login">登录后即可参与评论　<a class="btn btn-primary btn-sm" href="/login">去登录</a></div>\n';

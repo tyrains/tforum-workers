@@ -102,7 +102,8 @@ export async function apiCreatePost(ctx: Ctx): Promise<void> {
 
   if (title === '' || content === '') err('标题和内容不能为空');
   if (mbLen(title) > 30) err('标题不能超过 30 个字符');
-  if (mbLen(content) > 3000) err('内容不能超过 3000 个字符');
+  const maxPost = await ctx.settings.int('post_max_length', 3000, 100, 100000);
+  if (mbLen(content) > maxPost) err('内容不能超过 ' + maxPost + ' 个字符');
   if (hasInvisibleChars(title + content) || hasControlChars(title + content)) err('内容包含非法字符');
   if (categoryId) {
     if (!(await ctx.db.one('SELECT id FROM categories WHERE id = ?', [Number(categoryId)]))) {
@@ -137,7 +138,8 @@ export async function apiUpdatePost(ctx: Ctx, id: number): Promise<void> {
   const content = stripForbiddenFonts(ctx.strParam('content', String(p.content)).trim());
   const categoryId = ctx.param('category_id', p.category_id);
   if (title === '' || mbLen(title) > 30) err('标题需在 1～30 个字符之间');
-  if (mbLen(content) > 3000) err('内容不能超过 3000 个字符');
+  const maxPost = await ctx.settings.int('post_max_length', 3000, 100, 100000);
+  if (mbLen(content) > maxPost) err('内容不能超过 ' + maxPost + ' 个字符');
   await ctx.db.run('UPDATE posts SET title = ?, content = ?, category_id = ? WHERE id = ?', [
     title,
     content,
@@ -194,7 +196,8 @@ export async function apiCreateComment(ctx: Ctx, postId: number): Promise<void> 
   const parentId = ctx.param('parent_id', null);
 
   if (content === '') err('评论内容不能为空');
-  if (mbLen(content) > 3000) err('评论不能超过 3000 个字符');
+  const maxComment = await ctx.settings.int('comment_max_length', 3000, 100, 100000);
+  if (mbLen(content) > maxComment) err('评论不能超过 ' + maxComment + ' 个字符');
   if (hasInvisibleChars(content) || hasControlChars(content)) err('内容包含非法字符');
   const post = await ctx.db.one('SELECT id, status FROM posts WHERE id = ?', [postId]);
   if (!post) err('帖子不存在', 404);

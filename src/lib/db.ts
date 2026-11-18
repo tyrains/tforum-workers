@@ -66,6 +66,12 @@ export class Settings {
     return (await this.get(key, '0')) === '1';
   }
 
+  /** 整数型设置（每页帖子数、字数上限等后台可调数值共用）：解析失败回落默认值，结果钳制在 [min, max] */
+  async int(key: string, def: number, min: number, max: number): Promise<number> {
+    const n = parseInt(await this.get(key, String(def)), 10);
+    return Number.isFinite(n) ? Math.min(Math.max(n, min), max) : def;
+  }
+
   async set(key: string, value: string): Promise<void> {
     await this.db.run('INSERT OR REPLACE INTO settings ("key", value) VALUES (?, ?)', [key, value]);
     this.cache.set(key, value);
