@@ -140,6 +140,7 @@ export async function renderAdmin(ctx: Ctx): Promise<string> {
   h += `\t\t\t\t\t<div class="field"><label>站点名称</label><input class="input" name="site_title" value="${e(sv('site_title'))}"></div>\n`;
   h += `\t\t\t\t\t<div class="field"><label>主题色</label><input class="input" type="color" name="site_primary_color" value="${e(sv('site_primary_color') || '#4f46e5')}"></div>\n`;
   h += `\t\t\t\t\t<div class="field"><label>站点描述</label><input class="input" name="site_description" value="${e(sv('site_description'))}"></div>\n`;
+  h += `\t\t\t\t\t<div class="field"><label>首页每页帖子数</label><input class="input" type="number" name="posts_per_page" min="1" max="100" step="1" value="${e(sv('posts_per_page') || '10')}"></div>\n`;
   h += '\t\t\t\t\t<div class="field"><label>默认界面主题</label><select class="select" name="site_theme">\n';
   h += `\t\t\t\t\t\t<option value="editorial" ${adminTheme === 'editorial' ? 'selected' : ''}>${e(t(ctx, 'theme_editorial', {}, '杂志编辑风'))}</option>\n`;
   h += `\t\t\t\t\t\t<option value="tool" ${adminTheme === 'tool' ? 'selected' : ''}>${e(t(ctx, 'theme_tool', {}, '默认工具风'))}</option>\n`;

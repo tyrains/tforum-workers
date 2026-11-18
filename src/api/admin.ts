@@ -34,6 +34,7 @@ export async function apiAdminSaveSettings(ctx: Ctx): Promise<void> {
     'site_announcement', 'site_icp', 'site_footer_html', 'site_bg_image', 'site_bg_opacity',
     'site_custom_css', 'site_custom_js', 'site_terms', 'site_privacy', 'site_theme',
     'site_allowed_regions', 'site_blocked_regions', 'site_post_rate_limit', 'site_comment_rate_limit',
+    'posts_per_page',
     'site_keyword_filter', 'force_login', 'turnstile_enabled', 'turnstile_site_key', 'turnstile_secret_key',
     'notify_on_user_delete', 'notify_on_username_change', 'notify_on_avatar_change',
     'notify_on_manual_verify', 'notify_on_role_change', 'resend_key', 'resend_from', 'resend_from_name',
@@ -50,6 +51,10 @@ export async function apiAdminSaveSettings(ctx: Ctx): Promise<void> {
         value = stripForbiddenFonts(value, true);
       } else if (key === 'site_announcement' || key === 'site_footer_html') {
         value = stripForbiddenFonts(value);
+      } else if (key === 'posts_per_page') {
+        // 首页每页帖子数：整数，限制在 1～100，非法值回落到 10
+        const n = parseInt(value, 10);
+        value = Number.isFinite(n) ? String(Math.min(Math.max(n, 1), 100)) : '10';
       } else if (key === 'site_theme' && value !== 'editorial' && value !== 'tool') {
         // 只允许两套界面主题，非法值一律回落到默认工具风
         value = 'tool';

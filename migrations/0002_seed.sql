@@ -24,6 +24,7 @@ INSERT OR IGNORE INTO settings ("key", value) VALUES ('site_allowed_regions', ''
 INSERT OR IGNORE INTO settings ("key", value) VALUES ('site_blocked_regions', '');
 INSERT OR IGNORE INTO settings ("key", value) VALUES ('site_post_rate_limit', '');
 INSERT OR IGNORE INTO settings ("key", value) VALUES ('site_comment_rate_limit', '');
+INSERT OR IGNORE INTO settings ("key", value) VALUES ('posts_per_page', '10');
 INSERT OR IGNORE INTO settings ("key", value) VALUES ('site_keyword_filter', '');
 INSERT OR IGNORE INTO settings ("key", value) VALUES ('force_login', '0');
 INSERT OR IGNORE INTO settings ("key", value) VALUES ('turnstile_enabled', '0');
