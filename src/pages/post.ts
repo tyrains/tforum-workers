@@ -69,13 +69,7 @@ export async function renderPost(ctx: Ctx, postId: number): Promise<string> {
   for (const c of comments) {
     if (c.parent_id) continue;
     h += `\t\t\t\t\t<div class="comment-item card" id="comment-${Number(c.id)}">\n`;
-    h += `\t\t\t\t\t\t<a href="/profile?id=${Number(c.author_id)}"><img class="avatar" src="${avatarOf(c)}" alt=""></a>\n`;
-    h += '\t\t\t\t\t\t<div class="comment-body">\n\t\t\t\t\t\t\t<div class="comment-head">\n';
-    h += `\t\t\t\t\t\t\t\t<strong>${e(c.username)}</strong>\n`;
-    if (c.role === 'admin') h += '\t\t\t\t\t\t\t\t<span class="badge admin">管理员</span>\n';
-    h += `\t\t\t\t\t\t\t\t<span style="color:var(--muted-foreground)">${e(timeAgo(String(c.created_at)))}</span>\n`;
-    if (c.status === 'locked') h += '\t\t\t\t\t\t\t\t<span class="badge locked">审核中</span>\n';
-    h += '\t\t\t\t\t\t\t</div>\n';
+    h += '\t\t\t\t\t\t<div class="comment-main">\n';
     h += `\t\t\t\t\t\t\t<div class="comment-text markdown">${renderMarkdown(String(c.content))}</div>\n`;
     h += '\t\t\t\t\t\t\t<div class="comment-actions">\n';
     if (viewer && p.status !== 'locked') {
@@ -84,27 +78,30 @@ export async function renderPost(ctx: Ctx, postId: number): Promise<string> {
     if (canEdit || (viewer && Number(c.author_id) === viewerId)) {
       h += `\t\t\t\t\t\t\t\t<button data-confirm="删除这条评论？" data-delete="comments/${Number(c.id)}">🗑 删除</button>\n`;
     }
-    h += '\t\t\t\t\t\t\t</div>\n';
-    const children = comments.filter((child) => Number(child.parent_id) === Number(c.id));
-    if (children.length) {
-      h += '\n\t\t\t\t\t\t\t<div class="comment-children">\n';
-      for (const child of children) {
-        h += `\t\t\t\t\t\t\t\t<div class="comment-item card" id="comment-${Number(child.id)}">\n`;
-        h += `\t\t\t\t\t\t\t\t\t<img class="avatar" src="${avatarOf(child)}" alt="">\n`;
-        h += '\t\t\t\t\t\t\t\t\t<div class="comment-body">\n\t\t\t\t\t\t\t\t\t\t<div class="comment-head">\n';
-        h += `\t\t\t\t\t\t\t\t\t\t\t<strong>${e(child.username)}</strong>\n`;
-        h += `\t\t\t\t\t\t\t\t\t\t\t<span style="color:var(--muted-foreground)">${e(timeAgo(String(child.created_at)))}</span>\n`;
-        h += '\t\t\t\t\t\t\t\t\t\t</div>\n';
-        h += `\t\t\t\t\t\t\t\t\t\t<div class="comment-text markdown">${renderMarkdown(String(child.content))}</div>\n`;
-        h += '\t\t\t\t\t\t\t\t\t\t<div class="comment-actions">\n';
-        if (viewer && p.status !== 'locked') {
-          h += `\t\t\t\t\t\t\t\t\t\t\t<button data-reply="${Number(c.id)}">↩ 回复</button>\n`;
-        }
-        h += '\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n';
-      }
-      h += '\t\t\t\t\t\t\t</div>\n';
-    }
+    h += '\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n';
+    h += '\t\t\t\t\t\t<div class="comment-side">\n';
+    h += `\t\t\t\t\t\t\t<a href="/profile?id=${Number(c.author_id)}"><img class="avatar" src="${avatarOf(c)}" alt=""></a>\n`;
+    h += `\t\t\t\t\t\t\t<span class="comment-author">${e(c.username)}</span>\n`;
+    if (c.role === 'admin') h += '\t\t\t\t\t\t\t<span class="badge admin">管理员</span>\n';
+    h += `\t\t\t\t\t\t\t<span class="comment-time">${e(timeAgo(String(c.created_at)))}</span>\n`;
+    if (c.status === 'locked') h += '\t\t\t\t\t\t\t<span class="badge locked">审核中</span>\n';
     h += '\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n';
+    const children = comments.filter((child) => Number(child.parent_id) === Number(c.id));
+    for (const child of children) {
+      h += `\t\t\t\t\t<div class="comment-item card comment-child" id="comment-${Number(child.id)}">\n`;
+      h += '\t\t\t\t\t\t<div class="comment-main">\n';
+      h += `\t\t\t\t\t\t\t<div class="comment-text markdown">${renderMarkdown(String(child.content))}</div>\n`;
+      h += '\t\t\t\t\t\t\t<div class="comment-actions">\n';
+      if (viewer && p.status !== 'locked') {
+        h += `\t\t\t\t\t\t\t\t<button data-reply="${Number(c.id)}">↩ 回复</button>\n`;
+      }
+      h += '\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n';
+      h += '\t\t\t\t\t\t<div class="comment-side">\n';
+      h += `\t\t\t\t\t\t\t<img class="avatar" src="${avatarOf(child)}" alt="">\n`;
+      h += `\t\t\t\t\t\t\t<span class="comment-author">${e(child.username)}</span>\n`;
+      h += `\t\t\t\t\t\t\t<span class="comment-time">${e(timeAgo(String(child.created_at)))}</span>\n`;
+      h += '\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n';
+    }
   }
   h += '\n';
   if (viewer && p.status !== 'locked') {
