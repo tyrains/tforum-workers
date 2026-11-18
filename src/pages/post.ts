@@ -32,7 +32,6 @@ export async function renderPost(ctx: Ctx, postId: number): Promise<string> {
     [postId],
   ) as Row[];
   const canEdit = Boolean(viewer) && (Number(p.author_id) === viewerId || viewer?.role === 'admin');
-  const avatarOf = (c: Row) => e(assetUrl(c.avatar_url ? String(c.avatar_url) : '/api/avatar?id=' + Number(c.author_id)));
 
   let h = '';
   h += '<div class="detail-page">\n\t<div class="detail-container">\n';
@@ -80,9 +79,7 @@ export async function renderPost(ctx: Ctx, postId: number): Promise<string> {
     }
     h += '\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n';
     h += '\t\t\t\t\t\t<div class="comment-side">\n';
-    h += `\t\t\t\t\t\t\t<a href="/profile?id=${Number(c.author_id)}"><img class="avatar" src="${avatarOf(c)}" alt=""></a>\n`;
-    h += `\t\t\t\t\t\t\t<span class="comment-author">${e(c.username)}</span>\n`;
-    if (c.role === 'admin') h += '\t\t\t\t\t\t\t<span class="badge admin">管理员</span>\n';
+    h += `\t\t\t\t\t\t\t<a class="comment-author" href="/profile?id=${Number(c.author_id)}">${e(c.username)}</a>\n`;
     h += `\t\t\t\t\t\t\t<span class="comment-time">${e(timeAgo(String(c.created_at)))}</span>\n`;
     if (c.status === 'locked') h += '\t\t\t\t\t\t\t<span class="badge locked">审核中</span>\n';
     h += '\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n';
@@ -97,7 +94,6 @@ export async function renderPost(ctx: Ctx, postId: number): Promise<string> {
       }
       h += '\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n';
       h += '\t\t\t\t\t\t<div class="comment-side">\n';
-      h += `\t\t\t\t\t\t\t<img class="avatar" src="${avatarOf(child)}" alt="">\n`;
       h += `\t\t\t\t\t\t\t<span class="comment-author">${e(child.username)}</span>\n`;
       h += `\t\t\t\t\t\t\t<span class="comment-time">${e(timeAgo(String(child.created_at)))}</span>\n`;
       h += '\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n';
