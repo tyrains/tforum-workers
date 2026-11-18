@@ -903,8 +903,8 @@ font, font *, [face] {
 .comment-item { padding: 0; gap: 0; overflow: hidden; }
 .detail-comments .comment-item { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-card); padding: 0; margin: 0 0 12px; }
 .comment-main { flex: 1; min-width: 0; display: flex; flex-direction: column; padding: 16px 18px; }
-.comment-main .comment-text { flex: 1; }
-.comment-main .comment-actions { margin-top: 14px; }
+.comment-main .comment-text { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+.comment-main .comment-actions { margin-top: 14px; justify-content: flex-end; }
 .comment-side { width: 128px; flex-shrink: 0; border-left: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; text-align: center; gap: 6px; padding: 18px 10px; }
 .comment-side .avatar { width: 52px; height: 52px; }
 .comment-author { font-size: 14px; font-weight: 700; color: var(--foreground); word-break: break-all; }
