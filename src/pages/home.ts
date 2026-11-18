@@ -6,7 +6,7 @@ import { postSelectSql } from '../lib/content';
 import type { Row } from '../lib/db';
 
 export async function renderHome(ctx: Ctx): Promise<string> {
-  const limit = 20;
+  const limit = 10;
   const offset = Math.max(ctx.intParam('offset', 0), 0);
   const categoryId = ctx.strParam('category_id', '');
   const q = ctx.strParam('q', '').trim();
