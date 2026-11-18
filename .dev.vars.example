@@ -1,0 +1,5 @@
+# 本地开发环境变量示例：复制为 .dev.vars 后按需填写（.dev.vars 不要提交到 Git）。
+# 本项目没有必需的 Secret：邮件（Resend）、Turnstile 等密钥都存在 D1 的 settings 表里，
+# 部署后在管理后台通过 API 写入（见 README「邮件配置」一节），不走环境变量。
+# 可选：固定站点域名（邮件链接用），与 wrangler.jsonc 的 vars.SITE_URL 二选一。
+# SITE_URL=https://forum.example.com

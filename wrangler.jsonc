@@ -1,0 +1,33 @@
+{
+  // TForum —— Cloudflare Workers + D1 + R2 原生版
+  // 部署前必做：把 d1_databases[0].database_id 换成你新建的 tforum-db 的真实 ID
+  // （wrangler d1 create tforum-db 后输出，或 Cloudflare 后台 D1 页面查看）。
+  "name": "tforum",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-11-01",
+  // 静态资源（public/ 目录：CSS/JS/图片），对应 PHP 版 assets/
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "tforum-db",
+      // ↓↓↓ 占位符，部署前必须替换为真实 database_id ↓↓↓
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "R2",
+      "bucket_name": "tforum-uploads"
+    }
+  ],
+  "vars": {
+    // 可选：站点固定域名（如 https://forum.example.com）。
+    // 不设时邮件链接域名取请求 Origin，一般无需设置。
+    // "SITE_URL": "https://forum.example.com"
+  }
+}
