@@ -1,6 +1,6 @@
 -- TForum D1 种子数据（0002）
 -- 与 PHP 版 lib/db.php init_db() 的播种行为等价：全部使用 INSERT OR IGNORE，可重复执行不报错、不覆盖已有数据。
--- 包含：31 个默认 settings 键（与 db.php $defaults 逐键一致）+ 3 个一次性迁移标记键
+-- 包含：32 个默认 settings 键（与 db.php $defaults 逐键一致）+ 3 个一次性迁移标记键
 --      （brand_migrated / theme_migrated / categories_seeded，PHP 版用它们防止每次请求重复播种；
 --        预置为 1 表示「已处理」，与随包数据库的实际状态一致）
 --      + 3 个默认分类 + 初始管理员。
@@ -13,6 +13,7 @@ INSERT OR IGNORE INTO settings ("key", value) VALUES ('site_logo_url', '');
 INSERT OR IGNORE INTO settings ("key", value) VALUES ('site_announcement', '');
 INSERT OR IGNORE INTO settings ("key", value) VALUES ('site_icp', '');
 INSERT OR IGNORE INTO settings ("key", value) VALUES ('site_footer_html', '');
+INSERT OR IGNORE INTO settings ("key", value) VALUES ('site_copyright', 'Powered by <a class="powered-link" href="https://github.com/tyrains" target="_blank" rel="noopener noreferrer">tyrains</a>');
 INSERT OR IGNORE INTO settings ("key", value) VALUES ('site_bg_image', '');
 INSERT OR IGNORE INTO settings ("key", value) VALUES ('site_bg_opacity', '1');
 INSERT OR IGNORE INTO settings ("key", value) VALUES ('site_custom_css', '');

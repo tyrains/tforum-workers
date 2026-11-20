@@ -1,6 +1,6 @@
 /** 管理后台页（对应 pages/admin.php：概览/用户/帖子/评论/分类/站点设置/文件清理/审计日志） */
 import type { Ctx } from '../lib/ctx';
-import { DEFAULT_SITE_TITLE, e, mbSubstr, timeAgo } from '../lib/core';
+import { DEFAULT_SITE_COPYRIGHT, DEFAULT_SITE_TITLE, e, mbSubstr, timeAgo } from '../lib/core';
 import { pageRequireAdmin } from '../lib/auth';
 import { t } from '../lib/i18n';
 import { themeDisplayName, themeEnabledIds, themeIsValid, themeMeta } from '../lib/theme-registry';
@@ -157,7 +157,8 @@ export async function renderAdmin(ctx: Ctx): Promise<string> {
   h += `\t\t\t\t\t<div class="field"><label>ICP 备案号</label><input class="input" name="site_icp" value="${e(sv('site_icp'))}"></div>\n`;
   h += '\t\t\t\t</div>\n';
   h += `\t\t\t\t<div class="field"><label>公告（支持 HTML）</label><textarea class="textarea" name="site_announcement" style="min-height:70px">${e(sv('site_announcement'))}</textarea></div>\n`;
-  h += `\t\t\t\t<div class="field"><label>页脚 HTML</label><textarea class="textarea" name="site_footer_html" style="min-height:70px">${e(sv('site_footer_html'))}</textarea></div>\n\n`;
+  h += `\t\t\t\t<div class="field"><label>页脚 HTML</label><textarea class="textarea" name="site_footer_html" style="min-height:70px">${e(sv('site_footer_html'))}</textarea></div>\n`;
+  h += `\t\t\t\t<div class="field"><label>版权声明</label><textarea class="textarea" name="site_copyright" style="min-height:70px">${e(sv('site_copyright') || DEFAULT_SITE_COPYRIGHT)}</textarea><span class="hint">显示在页脚，支持 HTML；留空则不显示这一行</span></div>\n\n`;
   h += '\t\t\t\t<div class="form-section-title">内容策略</div>\n\t\t\t\t<div class="form-grid">\n';
   h += `\t\t\t\t\t<div class="field"><label>发帖频率限制（JSON）</label><input class="input" name="site_post_rate_limit" value="${e(sv('site_post_rate_limit'))}" placeholder='{"count":3,"unit":"minute","window":1}'></div>\n`;
   h += `\t\t\t\t\t<div class="field"><label>评论频率限制（JSON）</label><input class="input" name="site_comment_rate_limit" value="${e(sv('site_comment_rate_limit'))}" placeholder='{"count":5,"unit":"minute","window":1}'></div>\n`;

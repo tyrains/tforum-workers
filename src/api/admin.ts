@@ -34,7 +34,7 @@ export async function apiAdminSaveSettings(ctx: Ctx): Promise<void> {
   const body = ctx.body;
   const allowed = [
     'site_title', 'site_description', 'site_primary_color', 'site_favicon_url', 'site_logo_url',
-    'site_announcement', 'site_icp', 'site_footer_html', 'site_bg_image', 'site_bg_opacity',
+    'site_announcement', 'site_icp', 'site_footer_html', 'site_copyright', 'site_bg_image', 'site_bg_opacity',
     'site_custom_css', 'site_custom_js', 'site_terms', 'site_privacy', 'site_theme',
     'site_allowed_regions', 'site_blocked_regions', 'site_post_rate_limit', 'site_comment_rate_limit',
     'posts_per_page', 'post_max_length', 'comment_max_length',
@@ -59,7 +59,7 @@ export async function apiAdminSaveSettings(ctx: Ctx): Promise<void> {
       // 字体安全：自定义 CSS / JS、公告、页脚 HTML 一律剥离装饰字体注入
       if (key === 'site_custom_css' || key === 'site_custom_js') {
         value = stripForbiddenFonts(value, true);
-      } else if (key === 'site_announcement' || key === 'site_footer_html') {
+      } else if (key === 'site_announcement' || key === 'site_footer_html' || key === 'site_copyright') {
         value = stripForbiddenFonts(value);
       } else if (key === 'site_theme' && !themeIsValid(value)) {
         // 只允许注册表里已实装的主题，非法值一律回落到默认工具风

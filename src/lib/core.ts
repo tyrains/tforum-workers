@@ -9,6 +9,9 @@ import type { Row } from './db';
 /** 站点默认名（对应 config.php 的 DEFAULT_SITE_TITLE；后台「站点设置」可覆盖，存 settings 表） */
 export const DEFAULT_SITE_TITLE = 'TForum';
 
+/** 页脚版权声明默认文案（对应 config.php 的 DEFAULT_SITE_COPYRIGHT；后台「站点设置」可覆盖，存 settings 表 site_copyright；清空则不显示这一行） */
+export const DEFAULT_SITE_COPYRIGHT = 'Powered by <a class="powered-link" href="https://github.com/tyrains" target="_blank" rel="noopener noreferrer">tyrains</a>';
+
 // ---------- 输出与跳转 ----------
 
 /** HTML 转义（对应 e()：htmlspecialchars ENT_QUOTES） */

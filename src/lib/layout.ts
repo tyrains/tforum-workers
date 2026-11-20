@@ -4,7 +4,7 @@
  * 链接改为干净路径，静态资源版本号用固定构建版本代替 filemtime。
  */
 import { ASSET_VERSION, type Ctx } from './ctx';
-import { assetUrl, DEFAULT_SITE_TITLE, e, mbSubstr, normalizeAssetUrls, publicUser } from './core';
+import { assetUrl, DEFAULT_SITE_COPYRIGHT, DEFAULT_SITE_TITLE, e, mbSubstr, normalizeAssetUrls, publicUser } from './core';
 import { csrfToken, currentUser } from './auth';
 import { currentLocale, t } from './i18n';
 import { themeCssPath, themeEnabledIds, themeIsValid, themeNamesMap, themeNext } from './theme-registry';
@@ -142,8 +142,10 @@ export async function pageHeader(ctx: Ctx, title = ''): Promise<string> {
 export async function pageFooter(ctx: Ctx): Promise<string> {
   const icp = await ctx.settings.get('site_icp', '');
   const footerHtml = await ctx.settings.get('site_footer_html', '');
+  // 版权声明：未保存过用默认文案；保存为空（trim 后）则不输出这一行
+  const copyright = (await ctx.settings.get('site_copyright', DEFAULT_SITE_COPYRIGHT)).trim();
   let h = '\n</main>\n<footer class="site-footer">\n\t<div class="container">\n';
-  h += '\t\t<p>Powered by <a class="powered-link" href="https://github.com/tyrains" target="_blank" rel="noopener noreferrer">tyrains</a></p>\n';
+  if (copyright) h += '\t\t<p>' + sanitizeHtml(copyright) + '</p>\n';
   if (icp) h += `\t\t<p>${e(icp)}</p>\n`;
   h += '\t\t' + sanitizeHtml(footerHtml) + '\n';
   h += '\t</div>\n</footer>\n';
