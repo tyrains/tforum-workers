@@ -9,7 +9,7 @@ export const SESSION_NAME = 'cforum_session';
 export const SESSION_LIFETIME = 7 * 24 * 3600; // 7 天（同 config.php）
 export const CSRF_COOKIE = 'cforum_csrf'; // 游客（未登录）会话的 CSRF 令牌载体，替代 PHP Session
 export const FLASH_COOKIE = 'cforum_flash'; // 替代 PHP $_SESSION['flash'] 的一次性消息
-export const ASSET_VERSION = '20261120a2'; // 静态资源破缓存版本号（替代 PHP 的 filemtime）
+export const ASSET_VERSION = '20261120a3'; // 静态资源破缓存版本号（替代 PHP 的 filemtime）
 
 export class Ctx {
   readonly db: Db;
