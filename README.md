@@ -3,6 +3,8 @@
 由 PHP 版 TForum 完整迁移：单 Worker（TypeScript）+ D1 数据库 + R2 文件存储 + Workers Static Assets 静态资源。
 页面 UI、class 名、API 契约（路径 / 参数 / 响应 JSON / 中文文案）与 PHP 版保持一致；页面 URL 改为干净路径，旧链接自动兼容跳转。
 
+> **PHP 版下载声明**：本仓库是 Cloudflare Workers 版；TForum 另有 PHP 原版（PHP + SQLite，免构建、上传即用），已打包发布在本仓库的 [Releases](https://github.com/tyrains/tforum-workers/releases/tag/php-v3) 中（文件 `tforum_php_v3.zip`）。想用传统 PHP 空间部署的同学，不必部署本仓库，直接去 Releases 下载 PHP 版，解压后上传到服务器即可运行。
+
 ## 目录结构
 
 ```
