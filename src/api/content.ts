@@ -11,10 +11,26 @@ import {
 } from '../lib/content';
 import { emailTemplate, sendEmail } from '../lib/mail';
 import type { Row } from '../lib/db';
+import { themeIsValid } from '../lib/theme-registry';
+
+/**
+ * 后台可配置的字数上限读取（集中钳制，避免异常值）。
+ * 对应 PHP v2 的 post_max_chars()/comment_max_chars()；键名沿用本站既有的
+ * post_max_length / comment_max_length（线上正在用，不改名），默认值与范围对齐 PHP：
+ * post 默认 20000、comment 默认 500，两者都限制在 1～1000000，非法值回落默认。
+ */
+export async function postMaxChars(ctx: Ctx): Promise<number> {
+  return ctx.settings.strictInt('post_max_length', 20000, 1, 1000000);
+}
+export async function commentMaxChars(ctx: Ctx): Promise<number> {
+  return ctx.settings.strictInt('comment_max_length', 500, 1, 1000000);
+}
 
 /** 帖子列表 */
 export async function apiListPosts(ctx: Ctx): Promise<void> {
-  const limit = Math.min(Math.max(ctx.intParam('limit', 20), 1), 100);
+  // 未显式传 limit 时，跟随后台「首页每页帖子数」，保证页面与接口分页一致
+  const defaultLimit = await ctx.settings.strictInt('posts_per_page', 10, 1, 100);
+  const limit = Math.min(Math.max(ctx.intParam('limit', defaultLimit), 1), 100);
   const offset = Math.max(ctx.intParam('offset', 0), 0);
   const categoryId = ctx.param('category_id', '');
   const q = ctx.strParam('q', ctx.strParam('query', '')).trim();
@@ -102,7 +118,7 @@ export async function apiCreatePost(ctx: Ctx): Promise<void> {
 
   if (title === '' || content === '') err('标题和内容不能为空');
   if (mbLen(title) > 30) err('标题不能超过 30 个字符');
-  const maxPost = await ctx.settings.int('post_max_length', 3000, 100, 100000);
+  const maxPost = await postMaxChars(ctx);
   if (mbLen(content) > maxPost) err('内容不能超过 ' + maxPost + ' 个字符');
   if (hasInvisibleChars(title + content) || hasControlChars(title + content)) err('内容包含非法字符');
   if (categoryId) {
@@ -138,7 +154,7 @@ export async function apiUpdatePost(ctx: Ctx, id: number): Promise<void> {
   const content = stripForbiddenFonts(ctx.strParam('content', String(p.content)).trim());
   const categoryId = ctx.param('category_id', p.category_id);
   if (title === '' || mbLen(title) > 30) err('标题需在 1～30 个字符之间');
-  const maxPost = await ctx.settings.int('post_max_length', 3000, 100, 100000);
+  const maxPost = await postMaxChars(ctx);
   if (mbLen(content) > maxPost) err('内容不能超过 ' + maxPost + ' 个字符');
   await ctx.db.run('UPDATE posts SET title = ?, content = ?, category_id = ? WHERE id = ?', [
     title,
@@ -196,7 +212,7 @@ export async function apiCreateComment(ctx: Ctx, postId: number): Promise<void> 
   const parentId = ctx.param('parent_id', null);
 
   if (content === '') err('评论内容不能为空');
-  const maxComment = await ctx.settings.int('comment_max_length', 3000, 100, 100000);
+  const maxComment = await commentMaxChars(ctx);
   if (mbLen(content) > maxComment) err('评论不能超过 ' + maxComment + ' 个字符');
   if (hasInvisibleChars(content) || hasControlChars(content)) err('内容包含非法字符');
   const post = await ctx.db.one('SELECT id, status FROM posts WHERE id = ?', [postId]);
@@ -288,17 +304,17 @@ export async function apiListCategories(ctx: Ctx): Promise<void> {
   ok({ categories: rows });
 }
 
-/** Markdown 预览渲染 */
+/** Markdown 预览渲染：上限跟随正文字数上限，避免写了正文却无法预览 */
 export async function apiMarkdownRender(ctx: Ctx): Promise<void> {
   const content = stripForbiddenFonts(ctx.strParam('content', ''));
-  if (mbLen(content) > 5000) err('内容过长');
+  if (mbLen(content) > (await postMaxChars(ctx))) err('内容过长');
   ok({ html: renderMarkdown(content) });
 }
 
-/** 切换个人主题（保存到 Cookie）；全站仅两套合法主题 */
+/** 切换个人主题（保存到 Cookie）；合法主题由注册表统一判定 */
 export async function apiSetTheme(ctx: Ctx): Promise<void> {
   const theme = ctx.strParam('theme', 'tool');
-  if (theme !== 'editorial' && theme !== 'tool') err('未知主题');
+  if (!themeIsValid(theme)) err('未知主题');
   ctx.setCookie('cforum_theme', theme, { maxAge: 365 * 86400, httpOnly: false });
   ok({}, '主题已保存');
 }

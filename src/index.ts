@@ -11,6 +11,7 @@ import { ApiError, JsonExit, RedirectExit } from './lib/errors';
 import { err } from './lib/core';
 import { currentUser } from './lib/auth';
 import { currentLocale, t } from './lib/i18n';
+import { themeIsValid } from './lib/theme-registry';
 import { pageFooter, pageHeader } from './lib/layout';
 import * as AuthApi from './api/auth';
 import * as ContentApi from './api/content';
@@ -292,9 +293,9 @@ export default {
         } else if (query.has('p')) {
           page = query.get('p') ?? 'home';
         }
-        // ?theme= 兜底通道：先落 Cookie 再直达干净路径
+        // ?theme= 兜底通道：先落 Cookie 再直达干净路径（合法性由主题注册表判定）
         const theme = query.get('theme');
-        if (theme !== null && (theme === 'editorial' || theme === 'tool')) {
+        if (theme !== null && themeIsValid(theme)) {
           ctx.setCookie('cforum_theme', theme, { maxAge: 365 * 86400, httpOnly: false });
         }
         return finalize(ctx, new Response(null, { status: 302, headers: { Location: legacyPageTarget(page, query) } }));
@@ -316,7 +317,7 @@ export default {
       // ---- 页面：?theme= 兜底通道（写 Cookie 后跳回无 theme 参数的本页） ----
       if (url.searchParams.has('theme')) {
         const theme = url.searchParams.get('theme') ?? '';
-        if (theme === 'editorial' || theme === 'tool') {
+        if (themeIsValid(theme)) {
           ctx.setCookie('cforum_theme', theme, { maxAge: 365 * 86400, httpOnly: false });
           ctx.cookies.set('cforum_theme', theme); // 本次请求立刻可见
         }

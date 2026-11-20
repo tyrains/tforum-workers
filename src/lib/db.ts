@@ -41,6 +41,17 @@ export class Db {
 }
 
 /**
+ * 严格整数解析（对应 PHP 的 FILTER_VALIDATE_INT 口径）：必须是纯十进制整数，
+ * 非法或越界一律回落默认值——避免 "10abc" 被强转成 10、0/负数导致分页除零。
+ */
+export function strictIntValue(raw: string, def: number, min: number, max: number): number {
+  const s = String(raw ?? '').trim();
+  if (!/^[+-]?\d+$/.test(s)) return def;
+  const n = parseInt(s, 10);
+  return n < min || n > max ? def : n;
+}
+
+/**
  * 站点设置读写：对应 db.php 的 setting()/set_setting()/all_settings()。
  * 每个请求加载一次全量设置（约 34 行）并缓存。
  */
@@ -70,6 +81,11 @@ export class Settings {
   async int(key: string, def: number, min: number, max: number): Promise<number> {
     const n = parseInt(await this.get(key, String(def)), 10);
     return Number.isFinite(n) ? Math.min(Math.max(n, min), max) : def;
+  }
+
+  /** 严格整数型设置（对应 PHP v2 的 FILTER_VALIDATE_INT 钳制读法）：非法/越界回落默认值，不钳边 */
+  async strictInt(key: string, def: number, min: number, max: number): Promise<number> {
+    return strictIntValue(await this.get(key, ''), def, min, max);
   }
 
   async set(key: string, value: string): Promise<void> {

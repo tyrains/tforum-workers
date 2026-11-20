@@ -70,35 +70,61 @@ function togglePopover(id) {
 	$$('.popover, .dropdown').forEach(p => { if (p !== el) p.classList.remove('show'); });
 	el?.classList.toggle('show');
 }
-/* ---------- 主题切换：全站只有「杂志编辑风」「默认工具风」两套 ----------
- * 顶栏按钮在两套之间互切，设置页的主题卡片复用同一套逻辑。
+/* ---------- 主题切换：已实装主题按顺序依次循环 ----------
+ * 顶栏按钮每点一次切到「下一个」主题；设置页卡片可直接指定主题。
+ * 主题清单、顺序、样式表路径均由服务端注册表注入，前端不写死任何主题名。
  */
 const THEME_NAMES = CF.themes || { editorial: '杂志编辑风', tool: '默认工具风' };
+const THEME_ORDER = Array.isArray(CF.themeOrder) && CF.themeOrder.length ? CF.themeOrder : ['editorial', 'tool'];
+const THEME_CSS = CF.themeCss || {};
 function currentTheme() {
-	if (document.body.classList.contains('theme-editorial')) return 'editorial';
-	if (document.body.classList.contains('theme-tool')) return 'tool';
-	// DOM 被外部脚本改写 / bfcache 恢复时，退回到 meta 与初始渲染值
+	// 优先读 body 上现存的 theme-* 类，兼容 bfcache 与外部脚本改写
+	for (const id of THEME_ORDER) {
+		if (document.body.classList.contains('theme-' + id)) return id;
+	}
 	const meta = document.querySelector('meta[name="theme"]')?.content;
-	return meta === 'editorial' || meta === 'tool' ? meta : (CF.theme === 'editorial' ? 'editorial' : 'tool');
+	return THEME_ORDER.includes(meta) ? meta : (THEME_ORDER.includes(CF.theme) ? CF.theme : 'tool');
+}
+function nextTheme(id) {
+	const pos = THEME_ORDER.indexOf(id);
+	return THEME_ORDER[(pos + 1) % THEME_ORDER.length];
+}
+/** 无刷新切换主题样式表：有专属 CSS 就加载，内置主题则移除 */
+function swapThemeStyle(id) {
+	const href = THEME_CSS[id] || '';
+	let link = document.getElementById('theme-style');
+	if (!href) {
+		if (link) link.remove();
+		return;
+	}
+	if (!link) {
+		link = document.createElement('link');
+		link.id = 'theme-style';
+		link.rel = 'stylesheet';
+		document.head.appendChild(link);
+	}
+	if (link.getAttribute('href') !== href) link.href = href;
 }
 function applyTheme(theme, announce = true) {
-	if (theme !== 'editorial' && theme !== 'tool') theme = 'tool';
-	document.body.classList.remove('theme-editorial', 'theme-tool');
+	if (!THEME_ORDER.includes(theme)) theme = 'tool';
+	// 移除全部已知主题类，再加目标类（数量固定且极小，性能无碍）
+	THEME_ORDER.forEach(id => document.body.classList.remove('theme-' + id));
 	document.body.classList.add('theme-' + theme);
+	swapThemeStyle(theme);
 	// 立即写 Cookie，保证刷新前后一致；同时走 API 做服务端校验与持久化
 	document.cookie = 'cforum_theme=' + theme + ';path=/;max-age=31536000;samesite=Lax';
 	CF.theme = theme; // 保持内部状态与页面一致，避免后续判断拿到旧值
 	$$('.theme-chip').forEach(b => b.classList.toggle('active', b.dataset.theme === theme));
 	const meta = document.querySelector('meta[name="theme"]');
 	if (meta) meta.content = theme;
-	const next = theme === 'tool' ? 'editorial' : 'tool';
-	const tip = '切换主题 · 当前：' + THEME_NAMES[theme] + '（点击切换为 ' + THEME_NAMES[next] + '）';
+	const next = nextTheme(theme);
+	const tip = '切换主题 · 当前：' + (THEME_NAMES[theme] || theme) + '（点击切换为 ' + (THEME_NAMES[next] || next) + '）';
 	const btn = $('#theme-toggle');
 	if (btn) {
 		btn.title = tip;
 		btn.setAttribute('aria-label', tip);
 		btn.dataset.themeTarget = next;
-		// 链接兜底地址始终指向「下一套主题」：万一之后 JS 失效，点击照样能切换
+		// 链接兜底地址始终指向「下一个主题」：万一 JS 失效，点击照样能切换
 		try {
 			const u = new URL(btn.href, location.href);
 			u.searchParams.set('theme', next);
@@ -106,12 +132,12 @@ function applyTheme(theme, announce = true) {
 		} catch (_) {}
 	}
 	api('user/theme', { method: 'POST', body: { theme } }).catch(() => {});
-	if (announce) toast('已切换为「' + THEME_NAMES[theme] + '」');
+	if (announce) toast('已切换为「' + (THEME_NAMES[theme] || theme) + '」');
 }
 $('#theme-toggle')?.addEventListener('click', e => {
 	e.preventDefault(); // JS 可用时无刷新切换；不可用时链接交给服务端兜底
 	e.stopPropagation();
-	const target = currentTheme() === 'tool' ? 'editorial' : 'tool';
+	const target = nextTheme(currentTheme());
 	applyTheme(target);
 	// 极端情况（脚本被外部注入打断、DOM 未更新）时，退回整页跳转保证一定生效
 	const btn = $('#theme-toggle');
@@ -120,8 +146,7 @@ $('#theme-toggle')?.addEventListener('click', e => {
 	}
 	$$('.popover, .dropdown').forEach(p => p.classList.remove('show'));
 });
-// 顶栏用户菜单 / 语言菜单：点击展开，点击页面其他地方收起
-$('#lang-toggle')?.addEventListener('click', e => { e.stopPropagation(); togglePopover('lang-popover'); });
+// 顶栏用户菜单：点击展开，点击页面其他地方收起（语言切换按钮已移除，全站仅用简体中文）
 $('#user-toggle')?.addEventListener('click', e => { e.stopPropagation(); togglePopover('user-dropdown'); });
 document.addEventListener('click', () => $$('.popover, .dropdown').forEach(p => p.classList.remove('show')));
 $$('.theme-chip').forEach(btn => btn.addEventListener('click', () => applyTheme(btn.dataset.theme)));
@@ -137,9 +162,6 @@ if (tocList) {
 		tocList.appendChild(a);
 	});
 }
-$$('.lang-list button').forEach(btn => btn.addEventListener('click', () => {
-	location.search = location.search.replace(/([?&])lang=[^&]*&?/, '$1').replace(/[?&]$/, '') + (location.search.includes('?') ? '&' : '?') + 'lang=' + btn.dataset.lang;
-}));
 $$('[data-action="logout"]').forEach(btn => btn.addEventListener('click', async () => {
 	try { await api('logout', { method: 'POST' }); location.href = '/'; } catch (e) { toast(e.message, 'error'); }
 }));
@@ -287,9 +309,16 @@ $$('[data-auto-submit]').forEach(el => el.addEventListener('change', () => el.fo
 /* ---------- 后台设置表单保存 ---------- */
 $('#settings-form-admin')?.addEventListener('submit', async e => {
 	e.preventDefault();
-	const btn = e.target.querySelector('[type="submit"]');
+	const form = e.target;
+	const titleInput = form.querySelector('[name="site_title"]');
+	if (titleInput) {
+		const v = titleInput.value.trim();
+		if (v.length > 20) { toast('站点名称不能超过 20 个字符', 'error'); return; }
+		titleInput.value = v; // 去掉首尾空白后再提交，空值由后端回退默认名
+	}
+	const btn = form.querySelector('[type="submit"]');
 	busy(btn, true);
-	const payload = Object.fromEntries(new FormData(e.target).entries());
+	const payload = Object.fromEntries(new FormData(form).entries());
 	try { await api('admin/settings', { method: 'POST', body: payload }); toast('设置已保存'); }
 	catch (err) { toast(err.message, 'error'); }
 	finally { busy(btn, false); }

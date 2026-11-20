@@ -1,0 +1,140 @@
+/* botanical-garden-ui · 纯皮肤层主题：仅颜色/背景/圆角/阴影/字体族，全部尺寸与布局继承公共 style.css */
+body.theme-botanical-garden-ui{--t-bg:#F3F5EC;--t-panel:#FCFDF7;--t-panel2:#E9F0DE;--t-ink:#243422;--t-ink2:#4C5B49;--t-mute:#5F7059;--t-hair:#DCE3D0;--t-hair2:#C7D3B6;--t-scroll:#C7D3B6;--t-accent:#2F5233;--t-accent-deep:#2F5233;--t-accent-soft:rgba(122,146,113,.14);--t-link:#2F5233;--t-ok:#2F5233;--t-danger:#8A3B2F;--t-brand-fg:#FFFFFF;--t-gold:#8A6D2F;--t-header-bg:#FCFDF7;--t-display:'Cormorant Garamond','Noto Serif SC',Georgia,serif;--background:#F3F5EC;--foreground:#243422;--card:#FCFDF7;--card-foreground:#243422;--muted:#E9F0DE;--muted-foreground:#5F7059;--primary:#2F5233;--primary-foreground:#FFFFFF;--secondary:#E9F0DE;--secondary-foreground:#2F5233;--accent:#E9F0DE;--accent-foreground:#2F5233;--border:#DCE3D0;--input:#C7D3B6;--ring:#8A6D2F;--destructive:#8A3B2F;--color-sakura:#2F5233;--color-lavender:#2F5233;--color-sky:#2F5233;--color-peach:#2F5233;--color-mint:#2F5233;--color-gold:#8A6D2F;--gradient-brand:#2F5233;--radius-sm:16px;--radius:22px;--radius-lg:26px;--radius-full:999px;--shadow-card:0 10px 30px rgba(47,82,51,.07);--shadow-elevated:0 14px 34px rgba(47,82,51,.10);--shadow-hover:none;--font-sans:"PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;--font-mono:"PingFang SC", Consolas, monospace}
+.theme-botanical-garden-ui{color-scheme:light;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;scrollbar-color:var(--t-scroll) var(--t-bg);scrollbar-width:thin}
+.theme-botanical-garden-ui ::-webkit-scrollbar-track{background:var(--t-bg)}
+.theme-botanical-garden-ui ::-webkit-scrollbar-thumb{background:var(--t-scroll);border:1px solid var(--t-bg);border-radius:8px}
+.theme-botanical-garden-ui a:focus-visible,.theme-botanical-garden-ui button:focus-visible,.theme-botanical-garden-ui input:focus-visible,
+.theme-botanical-garden-ui textarea:focus-visible,.theme-botanical-garden-ui select:focus-visible,.theme-botanical-garden-ui .forum-row:focus-visible{outline:3px solid var(--t-gold);outline-offset:2px}
+.theme-botanical-garden-ui a,.theme-botanical-garden-ui .forum-row{color:var(--t-link)}
+.theme-botanical-garden-ui .site-header{background:var(--t-header-bg);border-bottom:1px solid var(--t-hair);box-shadow:none}
+.theme-botanical-garden-ui .brand{color:var(--t-ink);font-weight:750;letter-spacing:-.02em;font-family:var(--t-display)}
+.theme-botanical-garden-ui .brand:hover{color:var(--t-link)}
+.theme-botanical-garden-ui .brand-logo{background:var(--t-accent);color:var(--t-brand-fg);box-shadow:none}
+.theme-botanical-garden-ui .brand-img{border:1px solid var(--t-hair2)}
+.theme-botanical-garden-ui .header-search input{background-color:var(--t-panel);border:1px solid var(--t-hair2);color:var(--t-ink);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='none' stroke='%234C5B49' stroke-width='2' viewBox='0 0 24 24'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-4-4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:12px center}
+.theme-botanical-garden-ui .header-search input::placeholder{color:var(--t-mute)}
+.theme-botanical-garden-ui .header-search input:focus{border-color:var(--t-accent);box-shadow:0 0 0 3px var(--t-accent-soft)}
+.theme-botanical-garden-ui .header-icon{color:var(--t-mute)}
+.theme-botanical-garden-ui .header-icon:hover{color:var(--t-ink);background:var(--t-panel2)}
+.theme-botanical-garden-ui .header-avatar,.theme-botanical-garden-ui .header-avatar-letter{background:var(--t-accent-deep);color:var(--t-brand-fg)}
+.theme-botanical-garden-ui .header-username{color:var(--t-ink)}
+.theme-botanical-garden-ui .header-admin-tag{background:var(--t-panel2);color:var(--t-link);border:1px solid var(--t-hair)}
+.theme-botanical-garden-ui .header-logout{background:transparent;border:1px solid var(--t-hair2);color:var(--t-danger)}
+.theme-botanical-garden-ui .header-logout:hover{background:var(--t-accent-soft);border-color:var(--t-danger)}
+.theme-botanical-garden-ui .header-new-btn{box-shadow:var(--shadow-hover)}
+.theme-botanical-garden-ui .header-new-btn:hover{transform:none}
+.theme-botanical-garden-ui .card,.theme-botanical-garden-ui .detail-comments .comment-item,.theme-botanical-garden-ui .comment-item{box-shadow:var(--shadow-card)}
+.theme-botanical-garden-ui .btn{box-shadow:var(--shadow-hover)}
+.theme-botanical-garden-ui .btn:hover{box-shadow:var(--shadow-hover);transform:none;filter:brightness(1.08)}
+.theme-botanical-garden-ui .btn:active{transform:scale(.97)}
+.theme-botanical-garden-ui .btn-primary{background:var(--t-accent-deep);color:var(--t-brand-fg)}
+.theme-botanical-garden-ui .btn-outline{border-color:var(--t-hair2);color:var(--t-ink)}
+.theme-botanical-garden-ui .flash.success{color:var(--t-ok)}
+.theme-botanical-garden-ui .flash.error{color:var(--t-danger);border-color:var(--t-hair2)}
+.theme-botanical-garden-ui .badge{background:var(--t-panel2);color:var(--t-ink2)}
+.theme-botanical-garden-ui .badge.primary{background:var(--t-accent-soft);color:var(--t-link)}
+.theme-botanical-garden-ui .badge.pin{background:var(--t-accent-soft);color:var(--t-accent)}
+.theme-botanical-garden-ui .badge.locked,.theme-botanical-garden-ui .badge.admin{color:var(--t-link)}
+.theme-botanical-garden-ui .input,.theme-botanical-garden-ui .textarea,.theme-botanical-garden-ui .select{background:var(--t-panel);border-color:var(--t-hair2);color:var(--t-ink)}
+.theme-botanical-garden-ui .input:focus,.theme-botanical-garden-ui .textarea:focus,.theme-botanical-garden-ui .select:focus{border-color:var(--t-accent);box-shadow:0 0 0 3px var(--t-accent-soft)}
+.theme-botanical-garden-ui .forum-toolbar{border-bottom-color:var(--t-hair)}
+.theme-botanical-garden-ui .forum-tabs a{color:var(--t-mute)}
+.theme-botanical-garden-ui .forum-tabs a:hover,.theme-botanical-garden-ui .forum-tabs a.active{color:var(--t-ink)}
+.theme-botanical-garden-ui .forum-tabs a.active{border-bottom-color:var(--t-accent);font-weight:700}
+.theme-botanical-garden-ui .forum-new{background:var(--t-accent-deep);color:var(--t-brand-fg)}
+.theme-botanical-garden-ui .forum-row{border-bottom-color:var(--t-hair)}
+.theme-botanical-garden-ui .forum-row:not(.forum-thead):hover{background:var(--t-panel2)}
+.theme-botanical-garden-ui .forum-thead{color:var(--t-mute)}
+.theme-botanical-garden-ui .cell-title{color:var(--t-ink)}
+.theme-botanical-garden-ui .cell-cat,.theme-botanical-garden-ui .cell-author,.theme-botanical-garden-ui .cell-date,.theme-botanical-garden-ui .cell-num{color:var(--t-ink2)}
+.theme-botanical-garden-ui .forum-row .cell-num{font-family:var(--font-mono)}
+.theme-botanical-garden-ui .pin-dot{color:var(--t-accent)}
+.theme-botanical-garden-ui .forum-empty,.theme-botanical-garden-ui .forum-pagination{color:var(--t-mute)}
+.theme-botanical-garden-ui .forum-pagination a{color:var(--t-link)}
+.theme-botanical-garden-ui .composer-card,.theme-botanical-garden-ui .side-card,.theme-botanical-garden-ui .pill,.theme-botanical-garden-ui .home-pagination a{background:var(--t-panel);box-shadow:var(--shadow-card)}
+.theme-botanical-garden-ui .composer-input{background:var(--t-panel2);color:var(--t-mute)}
+.theme-botanical-garden-ui .composer-input:hover{background:var(--t-panel2);color:var(--t-ink2)}
+.theme-botanical-garden-ui .pill{color:var(--t-ink2);border-color:var(--t-hair)}
+.theme-botanical-garden-ui .pill.active{background:var(--t-accent-deep);color:var(--t-brand-fg);border-color:var(--t-accent-deep)}
+.theme-botanical-garden-ui .result-count,.theme-botanical-garden-ui .home-pagination,.theme-botanical-garden-ui .cat-count,.theme-botanical-garden-ui .site-footer p{color:var(--t-mute)}
+.theme-botanical-garden-ui .post-row{border-bottom-color:var(--t-hair)}
+.theme-botanical-garden-ui .post-row:hover{background:var(--t-panel2)}
+.theme-botanical-garden-ui .post-row-title,.theme-botanical-garden-ui .side-card h3,.theme-botanical-garden-ui .cat-item{color:var(--t-ink)}
+.theme-botanical-garden-ui .post-row-meta{color:var(--t-mute)}
+.theme-botanical-garden-ui .post-row-author{color:var(--t-ink2)}
+.theme-botanical-garden-ui .post-cat-tag,.theme-botanical-garden-ui .post-cat-tag.general,.theme-botanical-garden-ui .post-cat-tag.tech,.theme-botanical-garden-ui .post-cat-tag.random{background:var(--t-accent-soft);color:var(--t-link)}
+.theme-botanical-garden-ui .home-pagination a{color:var(--t-ink2);border-color:var(--t-hair)}
+.theme-botanical-garden-ui .side-card>p{color:var(--t-ink2)}
+.theme-botanical-garden-ui .cat-item:hover{background:var(--t-panel2)}
+.theme-botanical-garden-ui .cat-item.active{background:var(--t-panel2);color:var(--t-link)}
+.theme-botanical-garden-ui .cat-item.active .cat-count{color:var(--t-link)}
+.theme-botanical-garden-ui .site-footer{border-top-color:var(--t-hair)}
+.theme-botanical-garden-ui .detail-title,.theme-botanical-garden-ui .comments-title,.theme-botanical-garden-ui .page-heading h1,
+.theme-botanical-garden-ui .auth-card h1,.theme-botanical-garden-ui .profile-name,.theme-botanical-garden-ui .settings-panel h2,.theme-botanical-garden-ui .modal h3{font-family:var(--t-display);font-weight:800;letter-spacing:0}
+.theme-botanical-garden-ui .detail-meta{border-bottom-color:var(--t-hair);color:var(--t-mute)}
+.theme-botanical-garden-ui .detail-back,.theme-botanical-garden-ui .detail-edit{color:var(--t-mute)}
+.theme-botanical-garden-ui .detail-back:hover{color:var(--t-link)}
+.theme-botanical-garden-ui .detail-body,.theme-botanical-garden-ui .markdown{color:var(--t-ink2)}
+.theme-botanical-garden-ui .detail-body h1,.theme-botanical-garden-ui .detail-body h2,.theme-botanical-garden-ui .detail-body h3,
+.theme-botanical-garden-ui .markdown h1,.theme-botanical-garden-ui .markdown h2,.theme-botanical-garden-ui .markdown h3{color:var(--t-ink)}
+.theme-botanical-garden-ui .detail-body a,.theme-botanical-garden-ui .markdown a{color:var(--t-link)}
+.theme-botanical-garden-ui .detail-body pre,.theme-botanical-garden-ui .markdown pre{background:var(--t-panel2);color:var(--t-ink);border:1px solid var(--t-hair);border-radius:var(--radius-sm)}
+.theme-botanical-garden-ui .detail-body :not(pre)>code,.theme-botanical-garden-ui .markdown code.md-code{background:var(--t-panel2);color:var(--t-link);border:1px solid var(--t-hair)}
+.theme-botanical-garden-ui .detail-body blockquote,.theme-botanical-garden-ui .markdown blockquote{background:var(--t-panel2);color:var(--t-ink2);border-left:1px solid var(--t-accent)}
+.theme-botanical-garden-ui .detail-body table,.theme-botanical-garden-ui .markdown table,.theme-botanical-garden-ui .detail-body th,.theme-botanical-garden-ui .detail-body td,.theme-botanical-garden-ui .markdown th,.theme-botanical-garden-ui .markdown td{border-color:var(--t-hair)}
+.theme-botanical-garden-ui .markdown th{background:var(--t-panel2);color:var(--t-ink2)}
+.theme-botanical-garden-ui .markdown hr{border-top-color:var(--t-hair)}
+.theme-botanical-garden-ui .detail-actions{border-top-color:var(--t-hair)}
+.theme-botanical-garden-ui .detail-likers{color:var(--t-mute)}
+.theme-botanical-garden-ui .like-btn{background:var(--t-panel);border-color:var(--t-hair2);color:var(--t-ink2)}
+.theme-botanical-garden-ui .like-btn:hover{border-color:var(--t-accent)}
+.theme-botanical-garden-ui .like-btn.liked{background:var(--t-accent-soft);border-color:var(--t-accent);color:var(--t-link)}
+.theme-botanical-garden-ui .detail-delete{color:var(--t-danger)}
+.theme-botanical-garden-ui .toc-title{color:var(--t-link)}
+.theme-botanical-garden-ui #toc-list a{color:var(--t-mute)}
+.theme-botanical-garden-ui #toc-list a:hover,.theme-botanical-garden-ui #toc-list a.active{color:var(--t-link)}
+.theme-botanical-garden-ui .detail-comments{border-top-color:var(--t-hair)}
+.theme-botanical-garden-ui .comments-empty,.theme-botanical-garden-ui .comment-login{color:var(--t-mute)}
+.theme-botanical-garden-ui .detail-comments .comment-children .comment-item,.theme-botanical-garden-ui .comment-children .comment-item{background:var(--t-panel2)}
+.theme-botanical-garden-ui .comment-author{border-left-color:var(--t-hair)}
+.theme-botanical-garden-ui .comment-author strong{color:var(--t-ink)}
+.theme-botanical-garden-ui .comment-time{color:var(--t-mute)}
+.theme-botanical-garden-ui .comment-text{color:var(--t-ink2)}
+.theme-botanical-garden-ui .comment-actions button{color:var(--t-mute)}
+.theme-botanical-garden-ui .comment-actions button:hover{color:var(--t-link)}
+.theme-botanical-garden-ui .comment-compose textarea{background:var(--t-panel);border-color:var(--t-hair2);color:var(--t-ink)}
+.theme-botanical-garden-ui .comment-compose textarea:focus{border-color:var(--t-accent)}
+.theme-botanical-garden-ui .editor-toolbar{background:var(--t-panel2);border-color:var(--t-hair2)}
+.theme-botanical-garden-ui .editor-toolbar button{background:var(--t-panel);color:var(--t-ink2);border:1px solid var(--t-hair)}
+.theme-botanical-garden-ui .editor-toolbar button:hover{background:var(--t-accent-deep);color:var(--t-brand-fg)}
+.theme-botanical-garden-ui .editor-preview{border-color:var(--t-hair2)}
+.theme-botanical-garden-ui .auth-card .subtitle,.theme-botanical-garden-ui .profile-bio{color:var(--t-ink2)}
+.theme-botanical-garden-ui .profile-banner{background:var(--t-accent)}
+.theme-botanical-garden-ui .profile-stats{border-color:var(--t-hair)}
+.theme-botanical-garden-ui .profile-stats strong{font-family:var(--font-mono)}
+.theme-botanical-garden-ui .profile-stats span{color:var(--t-mute)}
+.theme-botanical-garden-ui .settings-nav button:hover,.theme-botanical-garden-ui .admin-sidebar button:hover{background:var(--t-panel2)}
+.theme-botanical-garden-ui .settings-nav button.active{background:var(--t-panel2);color:var(--t-link)}
+.theme-botanical-garden-ui .admin-sidebar button.active{background:var(--t-accent-deep);color:var(--t-brand-fg)}
+.theme-botanical-garden-ui .form-section-title{color:var(--t-link);border-bottom-color:var(--t-hair)}
+.theme-botanical-garden-ui .data-table th{border-bottom-color:var(--t-hair2)}
+.theme-botanical-garden-ui .data-table td{border-bottom-color:var(--t-hair)}
+.theme-botanical-garden-ui .data-table tr:hover td{background:var(--t-panel2)}
+.theme-botanical-garden-ui .stat-icon{background:var(--t-panel2);border:1px solid var(--t-hair)}
+.theme-botanical-garden-ui .stat-num{font-family:var(--font-mono)}
+.theme-botanical-garden-ui .stat-label{color:var(--t-mute)}
+.theme-botanical-garden-ui .theme-chip{background:var(--t-panel2);border-color:var(--t-hair);color:var(--t-ink2)}
+.theme-botanical-garden-ui .theme-chip:hover,.theme-botanical-garden-ui .theme-chip.active{border-color:var(--t-accent);color:var(--t-link)}
+.theme-botanical-garden-ui .theme-chip-swatch{border-color:var(--t-hair2)}
+.theme-botanical-garden-ui .dropdown,.theme-botanical-garden-ui .popover,.theme-botanical-garden-ui .modal{background:var(--t-panel2);border:1px solid var(--t-hair2);box-shadow:var(--shadow-hover)}
+.theme-botanical-garden-ui .dropdown a:hover,.theme-botanical-garden-ui .dropdown button:hover{background:var(--t-panel);color:var(--t-ink)}
+.theme-botanical-garden-ui .modal-overlay{background:rgba(0,0,0,.55)}
+.theme-botanical-garden-ui .toast{background:var(--t-panel2);border-color:var(--t-hair2);box-shadow:var(--shadow-hover)}
+.theme-botanical-garden-ui .forum-toolbar,
+.theme-botanical-garden-ui .detail-meta{border-bottom-color:var(--t-hair2)}
+.theme-botanical-garden-ui .pill,.theme-botanical-garden-ui .badge{background:var(--t-panel2);border-radius:var(--radius-full)}
+@media(prefers-reduced-motion:reduce){
+	.theme-botanical-garden-ui *,.theme-botanical-garden-ui *::before,.theme-botanical-garden-ui *::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
+
+/* 已删除 1 条占流装饰伪元素（刊头/编号角标）：布局骨架优先，气质由配色与字体体现 */

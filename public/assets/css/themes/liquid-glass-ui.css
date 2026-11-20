@@ -1,0 +1,150 @@
+/* liquid-glass-ui · 纯皮肤层主题：仅颜色/背景/圆角/阴影/字体族，全部尺寸与布局继承公共 style.css */
+body.theme-liquid-glass-ui{--t-bg:#DCEEFF;--t-panel:rgba(255,255,255,.62);--t-panel2:rgba(255,255,255,.45);--t-ink:#0E2233;--t-ink2:#33505F;--t-mute:#4A6270;--t-hair:rgba(255,255,255,.75);--t-hair2:rgba(14,34,51,.12);--t-scroll:#9FC2E0;--t-accent:#0057B8;--t-accent-deep:#0066CC;--t-accent-soft:rgba(0,102,204,.10);--t-link:#0057B8;--t-ok:#1B7A4B;--t-danger:#C0392B;--t-brand-fg:#FFFFFF;--t-header-bg:rgba(255,255,255,.55);--t-display:-apple-system,BlinkMacSystemFont,'SF Pro Display','Noto Sans SC',sans-serif;--t-glass-shadow:0 20px 44px -18px rgba(30,70,110,.28),inset 0 1px 0 rgba(255,255,255,.9);--background:#E9F3FC;--foreground:#0E2233;--card:#FFFFFF;--card-foreground:#0E2233;--muted:rgba(255,255,255,.45);--muted-foreground:#4A6270;--primary:#0066CC;--primary-foreground:#FFFFFF;--secondary:rgba(255,255,255,.62);--secondary-foreground:#0057B8;--accent:rgba(255,255,255,.62);--accent-foreground:#0057B8;--border:rgba(255,255,255,.75);--input:rgba(14,34,51,.18);--ring:#0066CC;--destructive:#C0392B;--color-sakura:#0066CC;--color-lavender:#0066CC;--color-sky:#0066CC;--color-peach:#0066CC;--color-mint:#1B7A4B;--color-gold:#0057B8;--gradient-brand:#0066CC;--radius-sm:14px;--radius:20px;--radius-lg:28px;--radius-full:999px;--shadow-card:var(--t-glass-shadow);--shadow-elevated:var(--t-glass-shadow);--shadow-hover:var(--t-glass-shadow);--font-sans:"PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;--font-mono:"PingFang SC", Consolas, monospace}
+.theme-liquid-glass-ui{color-scheme:light;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;scrollbar-color:var(--t-scroll) var(--t-bg);scrollbar-width:thin}
+.theme-liquid-glass-ui ::-webkit-scrollbar-track{background:var(--t-bg)}
+.theme-liquid-glass-ui ::-webkit-scrollbar-thumb{background:var(--t-scroll);border:1px solid var(--t-bg);border-radius:8px}
+.theme-liquid-glass-ui a:focus-visible,.theme-liquid-glass-ui button:focus-visible,.theme-liquid-glass-ui input:focus-visible,
+.theme-liquid-glass-ui textarea:focus-visible,.theme-liquid-glass-ui select:focus-visible,.theme-liquid-glass-ui .forum-row:focus-visible{outline:2px solid var(--t-accent);outline-offset:2px}
+.theme-liquid-glass-ui a,.theme-liquid-glass-ui .forum-row{color:var(--t-link)}
+.theme-liquid-glass-ui .site-header{background:var(--t-header-bg);border-bottom:1px solid var(--t-hair);box-shadow:none}
+.theme-liquid-glass-ui .brand{color:var(--t-ink);font-weight:750;letter-spacing:-.02em;font-family:var(--t-display)}
+.theme-liquid-glass-ui .brand:hover{color:var(--t-link)}
+.theme-liquid-glass-ui .brand-logo{background:var(--t-accent);color:var(--t-brand-fg);box-shadow:none}
+.theme-liquid-glass-ui .brand-img{border:1px solid var(--t-hair2)}
+.theme-liquid-glass-ui .header-search input{background-color:var(--t-panel);border:1px solid var(--t-hair2);color:var(--t-ink);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='none' stroke='%2333505F' stroke-width='2' viewBox='0 0 24 24'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-4-4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:12px center}
+.theme-liquid-glass-ui .header-search input::placeholder{color:var(--t-mute)}
+.theme-liquid-glass-ui .header-search input:focus{border-color:var(--t-accent);box-shadow:0 0 0 3px var(--t-accent-soft)}
+.theme-liquid-glass-ui .header-icon{color:var(--t-mute)}
+.theme-liquid-glass-ui .header-icon:hover{color:var(--t-ink);background:var(--t-panel2)}
+.theme-liquid-glass-ui .header-avatar,.theme-liquid-glass-ui .header-avatar-letter{background:var(--t-accent-deep);color:var(--t-brand-fg)}
+.theme-liquid-glass-ui .header-username{color:var(--t-ink)}
+.theme-liquid-glass-ui .header-admin-tag{background:var(--t-panel2);color:var(--t-link);border:1px solid var(--t-hair)}
+.theme-liquid-glass-ui .header-logout{background:transparent;border:1px solid var(--t-hair2);color:var(--t-danger)}
+.theme-liquid-glass-ui .header-logout:hover{background:var(--t-accent-soft);border-color:var(--t-danger)}
+.theme-liquid-glass-ui .header-new-btn{box-shadow:var(--shadow-hover)}
+.theme-liquid-glass-ui .header-new-btn:hover{transform:none}
+.theme-liquid-glass-ui .card,.theme-liquid-glass-ui .detail-comments .comment-item,.theme-liquid-glass-ui .comment-item{box-shadow:var(--shadow-card)}
+.theme-liquid-glass-ui .btn{box-shadow:var(--shadow-hover)}
+.theme-liquid-glass-ui .btn:hover{box-shadow:var(--shadow-hover);transform:none;filter:brightness(1.08)}
+.theme-liquid-glass-ui .btn:active{transform:scale(.97)}
+.theme-liquid-glass-ui .btn-primary{background:var(--t-accent-deep);color:var(--t-brand-fg)}
+.theme-liquid-glass-ui .btn-outline{border-color:var(--t-hair2);color:var(--t-ink)}
+.theme-liquid-glass-ui .flash.success{color:var(--t-ok)}
+.theme-liquid-glass-ui .flash.error{color:var(--t-danger);border-color:var(--t-hair2)}
+.theme-liquid-glass-ui .badge{background:var(--t-panel2);color:var(--t-ink2)}
+.theme-liquid-glass-ui .badge.primary{background:var(--t-accent-soft);color:var(--t-link)}
+.theme-liquid-glass-ui .badge.pin{background:var(--t-accent-soft);color:var(--t-accent)}
+.theme-liquid-glass-ui .badge.locked,.theme-liquid-glass-ui .badge.admin{color:var(--t-link)}
+.theme-liquid-glass-ui .input,.theme-liquid-glass-ui .textarea,.theme-liquid-glass-ui .select{background:var(--t-panel);border-color:var(--t-hair2);color:var(--t-ink)}
+.theme-liquid-glass-ui .input:focus,.theme-liquid-glass-ui .textarea:focus,.theme-liquid-glass-ui .select:focus{border-color:var(--t-accent);box-shadow:0 0 0 3px var(--t-accent-soft)}
+.theme-liquid-glass-ui .forum-toolbar{border-bottom-color:var(--t-hair)}
+.theme-liquid-glass-ui .forum-tabs a{color:var(--t-mute)}
+.theme-liquid-glass-ui .forum-tabs a:hover,.theme-liquid-glass-ui .forum-tabs a.active{color:var(--t-ink)}
+.theme-liquid-glass-ui .forum-tabs a.active{border-bottom-color:var(--t-accent);font-weight:700}
+.theme-liquid-glass-ui .forum-new{background:var(--t-accent-deep);color:var(--t-brand-fg)}
+.theme-liquid-glass-ui .forum-row{border-bottom-color:var(--t-hair)}
+.theme-liquid-glass-ui .forum-row:not(.forum-thead):hover{background:var(--t-panel2)}
+.theme-liquid-glass-ui .forum-thead{color:var(--t-mute)}
+.theme-liquid-glass-ui .cell-title{color:var(--t-ink)}
+.theme-liquid-glass-ui .cell-cat,.theme-liquid-glass-ui .cell-author,.theme-liquid-glass-ui .cell-date,.theme-liquid-glass-ui .cell-num{color:var(--t-ink2)}
+.theme-liquid-glass-ui .forum-row .cell-num{font-family:var(--font-mono)}
+.theme-liquid-glass-ui .pin-dot{color:var(--t-accent)}
+.theme-liquid-glass-ui .forum-empty,.theme-liquid-glass-ui .forum-pagination{color:var(--t-mute)}
+.theme-liquid-glass-ui .forum-pagination a{color:var(--t-link)}
+.theme-liquid-glass-ui .composer-card,.theme-liquid-glass-ui .side-card,.theme-liquid-glass-ui .pill,.theme-liquid-glass-ui .home-pagination a{background:var(--t-panel);box-shadow:var(--shadow-card)}
+.theme-liquid-glass-ui .composer-input{background:var(--t-panel2);color:var(--t-mute)}
+.theme-liquid-glass-ui .composer-input:hover{background:var(--t-panel2);color:var(--t-ink2)}
+.theme-liquid-glass-ui .pill{color:var(--t-ink2);border-color:var(--t-hair)}
+.theme-liquid-glass-ui .pill.active{background:var(--t-accent-deep);color:var(--t-brand-fg);border-color:var(--t-accent-deep)}
+.theme-liquid-glass-ui .result-count,.theme-liquid-glass-ui .home-pagination,.theme-liquid-glass-ui .cat-count,.theme-liquid-glass-ui .site-footer p{color:var(--t-mute)}
+.theme-liquid-glass-ui .post-row{border-bottom-color:var(--t-hair)}
+.theme-liquid-glass-ui .post-row:hover{background:var(--t-panel2)}
+.theme-liquid-glass-ui .post-row-title,.theme-liquid-glass-ui .side-card h3,.theme-liquid-glass-ui .cat-item{color:var(--t-ink)}
+.theme-liquid-glass-ui .post-row-meta{color:var(--t-mute)}
+.theme-liquid-glass-ui .post-row-author{color:var(--t-ink2)}
+.theme-liquid-glass-ui .post-cat-tag,.theme-liquid-glass-ui .post-cat-tag.general,.theme-liquid-glass-ui .post-cat-tag.tech,.theme-liquid-glass-ui .post-cat-tag.random{background:var(--t-accent-soft);color:var(--t-link)}
+.theme-liquid-glass-ui .home-pagination a{color:var(--t-ink2);border-color:var(--t-hair)}
+.theme-liquid-glass-ui .side-card>p{color:var(--t-ink2)}
+.theme-liquid-glass-ui .cat-item:hover{background:var(--t-panel2)}
+.theme-liquid-glass-ui .cat-item.active{background:var(--t-panel2);color:var(--t-link)}
+.theme-liquid-glass-ui .cat-item.active .cat-count{color:var(--t-link)}
+.theme-liquid-glass-ui .site-footer{border-top-color:var(--t-hair)}
+.theme-liquid-glass-ui .detail-title,.theme-liquid-glass-ui .comments-title,.theme-liquid-glass-ui .page-heading h1,
+.theme-liquid-glass-ui .auth-card h1,.theme-liquid-glass-ui .profile-name,.theme-liquid-glass-ui .settings-panel h2,.theme-liquid-glass-ui .modal h3{font-family:var(--t-display);font-weight:800;letter-spacing:-.02em}
+.theme-liquid-glass-ui .detail-meta{border-bottom-color:var(--t-hair);color:var(--t-mute)}
+.theme-liquid-glass-ui .detail-back,.theme-liquid-glass-ui .detail-edit{color:var(--t-mute)}
+.theme-liquid-glass-ui .detail-back:hover{color:var(--t-link)}
+.theme-liquid-glass-ui .detail-body,.theme-liquid-glass-ui .markdown{color:var(--t-ink2)}
+.theme-liquid-glass-ui .detail-body h1,.theme-liquid-glass-ui .detail-body h2,.theme-liquid-glass-ui .detail-body h3,
+.theme-liquid-glass-ui .markdown h1,.theme-liquid-glass-ui .markdown h2,.theme-liquid-glass-ui .markdown h3{color:var(--t-ink)}
+.theme-liquid-glass-ui .detail-body a,.theme-liquid-glass-ui .markdown a{color:var(--t-link)}
+.theme-liquid-glass-ui .detail-body pre,.theme-liquid-glass-ui .markdown pre{background:var(--t-panel2);color:var(--t-ink);border:1px solid var(--t-hair);border-radius:var(--radius-sm)}
+.theme-liquid-glass-ui .detail-body :not(pre)>code,.theme-liquid-glass-ui .markdown code.md-code{background:var(--t-panel2);color:var(--t-link);border:1px solid var(--t-hair)}
+.theme-liquid-glass-ui .detail-body blockquote,.theme-liquid-glass-ui .markdown blockquote{background:var(--t-panel2);color:var(--t-ink2);border-left:1px solid var(--t-accent)}
+.theme-liquid-glass-ui .detail-body table,.theme-liquid-glass-ui .markdown table,.theme-liquid-glass-ui .detail-body th,.theme-liquid-glass-ui .detail-body td,.theme-liquid-glass-ui .markdown th,.theme-liquid-glass-ui .markdown td{border-color:var(--t-hair)}
+.theme-liquid-glass-ui .markdown th{background:var(--t-panel2);color:var(--t-ink2)}
+.theme-liquid-glass-ui .markdown hr{border-top-color:var(--t-hair)}
+.theme-liquid-glass-ui .detail-actions{border-top-color:var(--t-hair)}
+.theme-liquid-glass-ui .detail-likers{color:var(--t-mute)}
+.theme-liquid-glass-ui .like-btn{background:var(--t-panel);border-color:var(--t-hair2);color:var(--t-ink2)}
+.theme-liquid-glass-ui .like-btn:hover{border-color:var(--t-accent)}
+.theme-liquid-glass-ui .like-btn.liked{background:var(--t-accent-soft);border-color:var(--t-accent);color:var(--t-link)}
+.theme-liquid-glass-ui .detail-delete{color:var(--t-danger)}
+.theme-liquid-glass-ui .toc-title{color:var(--t-link)}
+.theme-liquid-glass-ui #toc-list a{color:var(--t-mute)}
+.theme-liquid-glass-ui #toc-list a:hover,.theme-liquid-glass-ui #toc-list a.active{color:var(--t-link)}
+.theme-liquid-glass-ui .detail-comments{border-top-color:var(--t-hair)}
+.theme-liquid-glass-ui .comments-empty,.theme-liquid-glass-ui .comment-login{color:var(--t-mute)}
+.theme-liquid-glass-ui .detail-comments .comment-children .comment-item,.theme-liquid-glass-ui .comment-children .comment-item{background:var(--t-panel2)}
+.theme-liquid-glass-ui .comment-author{border-left-color:var(--t-hair)}
+.theme-liquid-glass-ui .comment-author strong{color:var(--t-ink)}
+.theme-liquid-glass-ui .comment-time{color:var(--t-mute)}
+.theme-liquid-glass-ui .comment-text{color:var(--t-ink2)}
+.theme-liquid-glass-ui .comment-actions button{color:var(--t-mute)}
+.theme-liquid-glass-ui .comment-actions button:hover{color:var(--t-link)}
+.theme-liquid-glass-ui .comment-compose textarea{background:var(--t-panel);border-color:var(--t-hair2);color:var(--t-ink)}
+.theme-liquid-glass-ui .comment-compose textarea:focus{border-color:var(--t-accent)}
+.theme-liquid-glass-ui .editor-toolbar{background:var(--t-panel2);border-color:var(--t-hair2)}
+.theme-liquid-glass-ui .editor-toolbar button{background:var(--t-panel);color:var(--t-ink2);border:1px solid var(--t-hair)}
+.theme-liquid-glass-ui .editor-toolbar button:hover{background:var(--t-accent-deep);color:var(--t-brand-fg)}
+.theme-liquid-glass-ui .editor-preview{border-color:var(--t-hair2)}
+.theme-liquid-glass-ui .auth-card .subtitle,.theme-liquid-glass-ui .profile-bio{color:var(--t-ink2)}
+.theme-liquid-glass-ui .profile-banner{background:var(--t-accent)}
+.theme-liquid-glass-ui .profile-stats{border-color:var(--t-hair)}
+.theme-liquid-glass-ui .profile-stats strong{font-family:var(--font-mono)}
+.theme-liquid-glass-ui .profile-stats span{color:var(--t-mute)}
+.theme-liquid-glass-ui .settings-nav button:hover,.theme-liquid-glass-ui .admin-sidebar button:hover{background:var(--t-panel2)}
+.theme-liquid-glass-ui .settings-nav button.active{background:var(--t-panel2);color:var(--t-link)}
+.theme-liquid-glass-ui .admin-sidebar button.active{background:var(--t-accent-deep);color:var(--t-brand-fg)}
+.theme-liquid-glass-ui .form-section-title{color:var(--t-link);border-bottom-color:var(--t-hair)}
+.theme-liquid-glass-ui .data-table th{border-bottom-color:var(--t-hair2)}
+.theme-liquid-glass-ui .data-table td{border-bottom-color:var(--t-hair)}
+.theme-liquid-glass-ui .data-table tr:hover td{background:var(--t-panel2)}
+.theme-liquid-glass-ui .stat-icon{background:var(--t-panel2);border:1px solid var(--t-hair)}
+.theme-liquid-glass-ui .stat-num{font-family:var(--font-mono)}
+.theme-liquid-glass-ui .stat-label{color:var(--t-mute)}
+.theme-liquid-glass-ui .theme-chip{background:var(--t-panel2);border-color:var(--t-hair);color:var(--t-ink2)}
+.theme-liquid-glass-ui .theme-chip:hover,.theme-liquid-glass-ui .theme-chip.active{border-color:var(--t-accent);color:var(--t-link)}
+.theme-liquid-glass-ui .theme-chip-swatch{border-color:var(--t-hair2)}
+.theme-liquid-glass-ui .dropdown,.theme-liquid-glass-ui .popover,.theme-liquid-glass-ui .modal{background:var(--t-panel2);border:1px solid var(--t-hair2);box-shadow:var(--shadow-hover)}
+.theme-liquid-glass-ui .dropdown a:hover,.theme-liquid-glass-ui .dropdown button:hover{background:var(--t-panel);color:var(--t-ink)}
+.theme-liquid-glass-ui .modal-overlay{background:rgba(0,0,0,.55)}
+.theme-liquid-glass-ui .toast{background:var(--t-panel2);border-color:var(--t-hair2);box-shadow:var(--shadow-hover)}
+.theme-liquid-glass-ui{background-color:#DCEEFF;background-image:radial-gradient(720px 480px at 12% 8%,#FFD9A8,transparent 62%),
+		radial-gradient(680px 460px at 88% 18%,#F6B8D0,transparent 60%),
+		radial-gradient(760px 520px at 50% 92%,#A9C8FF,transparent 64%),
+		linear-gradient(160deg,#DCEEFF,#FDEEF4);background-attachment:fixed;background-repeat:no-repeat}
+.theme-liquid-glass-ui .site-header{backdrop-filter:blur(22px) saturate(1.5);-webkit-backdrop-filter:blur(22px) saturate(1.5);border:1px solid var(--t-hair);box-shadow:var(--t-glass-shadow)}
+.theme-liquid-glass-ui .auth-card,.theme-liquid-glass-ui .settings-panel,
+.theme-liquid-glass-ui .profile-card,.theme-liquid-glass-ui .stat-card{backdrop-filter:blur(22px) saturate(1.5);-webkit-backdrop-filter:blur(22px) saturate(1.5);background:var(--t-panel);border:1px solid var(--t-hair);box-shadow:var(--t-glass-shadow)}
+.theme-liquid-glass-ui .card,.theme-liquid-glass-ui .comment-item,
+.theme-liquid-glass-ui .side-card{background:var(--t-panel2)}
+.theme-liquid-glass-ui .detail-body,.theme-liquid-glass-ui .markdown{background:#FFFFFF;border-radius:var(--radius-lg)}
+.theme-liquid-glass-ui .btn{border-radius:var(--radius-full)}
+.theme-liquid-glass-ui .btn:active{transform:scale(.96)}
+@media(max-width:480px){
+	.theme-liquid-glass-ui{background-attachment:scroll}
+}
+@media(prefers-reduced-motion:reduce){
+	.theme-liquid-glass-ui *,.theme-liquid-glass-ui *::before,.theme-liquid-glass-ui *::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}

@@ -6,9 +6,8 @@ import { postSelectSql } from '../lib/content';
 import type { Row } from '../lib/db';
 
 export async function renderHome(ctx: Ctx): Promise<string> {
-  // 每页帖子数：后台「站点设置」可调（posts_per_page），默认 10，范围 1～100
-  const rawLimit = parseInt(await ctx.settings.get('posts_per_page', '10'), 10);
-  const limit = Number.isFinite(rawLimit) ? Math.min(Math.max(rawLimit, 1), 100) : 10;
+  // 每页帖子数由后台「首页每页帖子数」控制；非法/越界回落 10，防止异常值导致分页除零或超大查询
+  const limit = await ctx.settings.strictInt('posts_per_page', 10, 1, 100);
   const offset = Math.max(ctx.intParam('offset', 0), 0);
   const categoryId = ctx.strParam('category_id', '');
   const q = ctx.strParam('q', '').trim();

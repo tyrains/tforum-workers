@@ -25,7 +25,7 @@ export async function renderPostEdit(ctx: Ctx): Promise<string> {
   }
 
   const categories = await ctx.db.all('SELECT * FROM categories ORDER BY id') as Row[];
-  const postMax = await ctx.settings.int('post_max_length', 3000, 100, 100000);
+  const postMax = await ctx.settings.strictInt('post_max_length', 20000, 1, 1000000);
   const isEdit = Boolean(post);
   const p = post as Row | null;
 

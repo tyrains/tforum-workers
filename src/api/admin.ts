@@ -4,7 +4,10 @@
  * 只回掩码占位 ********；保存时提交掩码值表示「不修改」，提交空串表示清空。
  */
 import type { Ctx } from '../lib/ctx';
-import { auditLog, e, err, mbLen, ok, randomToken, validEmail } from '../lib/core';
+import { auditLog, DEFAULT_SITE_TITLE, e, err, mbLen, ok, randomToken, validEmail } from '../lib/core';
+import { strictIntValue } from '../lib/db';
+import { t } from '../lib/i18n';
+import { themeIsValid } from '../lib/theme-registry';
 import { requireAdmin, requireCsrf } from '../lib/auth';
 import { deleteImageFile, extractImageUrls, findOrphanImages, markdownExcerpt, postSelectSql, stripForbiddenFonts } from '../lib/content';
 import { emailTemplate, sendEmail } from '../lib/mail';
@@ -39,6 +42,13 @@ export async function apiAdminSaveSettings(ctx: Ctx): Promise<void> {
     'notify_on_user_delete', 'notify_on_username_change', 'notify_on_avatar_change',
     'notify_on_manual_verify', 'notify_on_role_change', 'resend_key', 'resend_from', 'resend_from_name',
   ];
+  // 数值型设置：[最小, 最大, 非法时回落默认值]（键名沿用本站既有命名，对应 PHP v2 的同名语义项）。
+  // 防止 0/负数导致分页除零、避免异常超大值；字符串必须是纯十进制整数，否则回落默认值。
+  const intSettings: Record<string, [number, number, number]> = {
+    posts_per_page: [1, 100, 10],
+    post_max_length: [1, 1000000, 20000],
+    comment_max_length: [1, 1000000, 500],
+  };
   const saved: string[] = [];
   for (const key of allowed) {
     if (Object.prototype.hasOwnProperty.call(body, key)) {
@@ -51,17 +61,20 @@ export async function apiAdminSaveSettings(ctx: Ctx): Promise<void> {
         value = stripForbiddenFonts(value, true);
       } else if (key === 'site_announcement' || key === 'site_footer_html') {
         value = stripForbiddenFonts(value);
-      } else if (key === 'post_max_length' || key === 'comment_max_length') {
-        // 字数上限：整数，限制在 100～100000，非法值回落到 3000
-        const n = parseInt(value, 10);
-        value = Number.isFinite(n) ? String(Math.min(Math.max(n, 100), 100000)) : '3000';
-      } else if (key === 'posts_per_page') {
-        // 首页每页帖子数：整数，限制在 1～100，非法值回落到 10
-        const n = parseInt(value, 10);
-        value = Number.isFinite(n) ? String(Math.min(Math.max(n, 1), 100)) : '10';
-      } else if (key === 'site_theme' && value !== 'editorial' && value !== 'tool') {
-        // 只允许两套界面主题，非法值一律回落到默认工具风
+      } else if (key === 'site_theme' && !themeIsValid(value)) {
+        // 只允许注册表里已实装的主题，非法值一律回落到默认工具风
         value = 'tool';
+      } else if (key === 'site_title') {
+        // 站点名称：去首尾空白（含全角空格）与换行；空值回退默认；上限 20 字符
+        value = value.replace(/^[\s\u3000]+|[\s\u3000]+$/gu, '');
+        if (value === '') {
+          value = DEFAULT_SITE_TITLE;
+        } else if (mbLen(value) > 20) {
+          err(t(ctx, 'siteNameTooLong', {}, '站点名称不能超过 20 个字符'));
+        }
+      } else if (key in intSettings) {
+        const [min, max, def] = intSettings[key];
+        value = String(strictIntValue(value, def, min, max));
       }
       await ctx.settings.set(key, value);
       saved.push(key);

@@ -8,8 +8,10 @@
  * 4) 组件区（卡片/按钮/表单/帖子/评论/后台）按注释分块
  * ============================================================ */
 
-/* ---------- 字体 ---------- */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@400;700&family=Space+Mono:wght@400;700&display=swap');
+/* ---------- 字体 ----------
+ * 不依赖任何外部字体 CDN：全站统一系统中文栈（见 :root --font-sans），
+ * 衬线标题走系统自带 Songti SC / Georgia 回退。加载前后无字体切换跳动。
+ */
 
 /* ---------- 基础变量：与「默认工具风」一致，作为无主题类时的兜底 ---------- */
 :root {
@@ -49,8 +51,8 @@
 	--shadow-elevated: 0 12px 40px rgba(28, 28, 28, .10);
 	--shadow-hover: 0 8px 28px rgba(28, 28, 28, .12);
 
-	--font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', sans-serif;
-	--font-mono: 'Space Mono', Consolas, monospace;
+	--font-sans: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+	--font-mono: "PingFang SC", Consolas, monospace;
 
 	--header-height: 66px;
 	--container: 1120px;
@@ -167,6 +169,10 @@ button { cursor: pointer; }
 	font-size: 11px; text-align: center; color: var(--foreground); transition: var(--transition);
 }
 .theme-chip:hover, .theme-chip.active { border-color: var(--primary); color: var(--primary); font-weight: 600; }
+/* 主题色块卡片：仅在设置页含 swatch 子元素时生效，旧两主题布局不变 */
+.theme-chip { display: flex; flex-direction: column; align-items: center; gap: 7px; padding: 10px 6px; }
+.theme-chip-swatch { display: block; width: 100%; height: 30px; border-radius: 6px; border: 1px solid var(--border); }
+.theme-chip-name { font-size: 11px; line-height: 1.3; }
 .lang-list { display: flex; flex-direction: column; gap: 2px; }
 .lang-list button { padding: 7px 10px; border: 0; background: none; border-radius: 8px; text-align: left; font-size: 13px; }
 .lang-list button:hover, .lang-list button.active { background: var(--muted); color: var(--primary); }
@@ -312,18 +318,22 @@ body.dark .flash.error { color: #fca5a5; }
 
 .comments-section { margin-top: 26px; }
 .comments-title { font-family: var(--font-sans); font-size: 19px; margin: 0 0 16px; display: flex; align-items: center; gap: 8px; }
-.comment-item { padding: 16px 18px; margin-bottom: 10px; display: flex; gap: 12px; }
-.comment-item .avatar { width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0; }
-.comment-body { flex: 1; min-width: 0; }
-.comment-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 12px; flex-wrap: wrap; }
-.comment-head strong { font-size: 13px; color: var(--foreground); }
-.comment-head .floor { color: var(--muted-foreground); margin-left: auto; }
+/* 评论区：左右分栏卡片（左侧内容 + 右侧作者栏） */
+.comment-item { display: flex; align-items: stretch; }
+.comment-main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.comment-author { width: 120px; flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 8px; padding: 14px 18px; border-left: 1px solid var(--border); }
+.comment-author-line { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+.comment-author strong { font-size: 14px; font-weight: 700; color: var(--foreground); font-family: var(--font-serif, Georgia, 'Times New Roman', serif); }
+.comment-author a { text-decoration: none; }
+.comment-author a:hover strong { color: var(--primary); }
+.comment-author .badge { font-size: 10px; padding: 1px 7px; }
+.comment-time { font-size: 11px; color: var(--muted-foreground); }
 .comment-text { font-size: 14px; line-height: 1.7; word-break: break-word; }
 .comment-text img { max-height: 300px; border-radius: 10px; margin-top: 8px; }
-.comment-actions { display: flex; gap: 12px; margin-top: 8px; font-size: 11px; }
-.comment-actions button { border: 0; background: none; color: var(--muted-foreground); padding: 0; }
+.comment-actions { display: flex; justify-content: flex-end; gap: 14px; margin-top: auto; padding-top: 14px; font-size: 11px; }
+.comment-actions button { border: 0; background: none; color: var(--muted-foreground); padding: 0; cursor: pointer; }
 .comment-actions button:hover { color: var(--primary); }
-.comment-children { margin: 12px 0 0 24px; padding-left: 16px; border-left: 2px solid var(--border); }
+.comment-children { margin: 12px 0 0 0; padding-top: 10px; border-top: 1px dashed var(--border); }
 .comment-children .comment-item { background: var(--accent); }
 
 /* Markdown 编辑器 */
@@ -454,15 +464,35 @@ body.dark .flash.error { color: #fca5a5; }
 .site-header { height: 56px; background: #fff; border-bottom: 1px solid #f0eef6; box-shadow: none; }
 .header-inner { gap: 18px; max-width: 1080px; }
 
-.brand { gap: 9px; font-family: var(--font-sans); font-size: 17px; font-weight: 800; letter-spacing: -.3px; color: #2d2b3a; }
+/* ---- 结构骨架锁定（所有主题共用，主题文件不得覆盖）----
+ * 品牌区：logo + 站名，宽度随站名内容自适应（上限 220px）。所有主题统一显示 logo，
+ * 站名文字统一字体栈/字号/行高，确保切换主题时站名区宽度不变、搜索框不跳动。
+ * 站名过长时单行省略（title 属性显示全名），不再盖住搜索框。 */
+.brand {
+	display: flex; align-items: center; gap: 9px;
+	flex: 0 1 auto; min-width: 0; max-width: 220px;
+	font-family: var(--font-sans); font-size: 17px; font-weight: 800;
+	letter-spacing: -.3px; color: #2d2b3a; text-decoration: none;
+}
+.brand-name {
+	display: block; min-width: 0;
+	white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+	font-family: var(--font-sans); font-size: 17px; font-weight: 800;
+	line-height: 1.2; letter-spacing: -.3px;
+}
+/* 所有主题统一隐藏默认 logo，站名区为纯文字，宽度只由站名决定，切换主题零跳动 */
+body[class*="theme-"] .brand-logo,
+body[class*="theme-"] .brand-img { display: none; }
+/* 鼠标点击站名不显示焦点轮廓；键盘 Tab 聚焦仍保留各主题 :focus-visible 焦点环 */
+.brand:focus:not(:focus-visible) { outline: none; }
 .brand-logo {
-	width: 30px; height: 30px; border-radius: 9px; background: var(--gradient-brand);
+	width: 30px; height: 30px; flex: none; border-radius: 9px; background: var(--gradient-brand);
 	display: grid; place-items: center; color: #fff; font-size: 16px; font-weight: 800;
 	box-shadow: none; font-family: var(--font-sans);
 }
-.brand-img { width: 30px; height: 30px; border-radius: 9px; }
+.brand-img { width: 30px; height: 30px; flex: none; border-radius: 9px; }
 
-.header-search { flex: 1; max-width: 360px; }
+.header-search { flex: 1 1 auto; min-width: 120px; max-width: 360px; }
 .header-search input {
 	width: 100%; height: 34px; padding: 0 14px 0 34px; border: 1px solid transparent;
 	border-radius: var(--radius-full); background: #f5f4f8; color: var(--foreground);
@@ -473,18 +503,18 @@ body.dark .flash.error { color: #fca5a5; }
 .header-search input::placeholder { color: #b3afbf; }
 .header-search input:focus { background-color: #fff; border-color: var(--primary); box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 10%, transparent); }
 
-.header-actions { gap: 10px; margin-left: auto; }
+.header-actions { gap: 10px; margin-left: auto; flex: none; }
 .header-icon {
 	width: 28px; height: 28px; border: 0; background: none; color: #8a869a;
 	font-size: 17px; display: grid; place-items: center; border-radius: 50%; transition: var(--transition);
 	text-decoration: none; cursor: pointer; flex: none;
 }
 .header-icon svg { display: block; }
-/* 顶栏主题按钮：按当前主题显示「可切换到的另一套主题」图标 */
+/* 顶栏主题按钮：12 套主题统一使用原有主题的「窗口面板」图标。
+ * 图标形状属于结构层，不随当前主题变化；盒子保持 28×28，不影响布局骨架。 */
 .header-icon .icon-theme-mag,
-.header-icon .icon-theme-tool { display: none; }
-body.theme-tool .header-icon .icon-theme-mag { display: block; }
-body.theme-editorial .header-icon .icon-theme-tool { display: block; }
+.header-icon .icon-theme-cycle { display: none; }
+.header-icon .icon-theme-tool { display: block; }
 .header-icon:hover { color: var(--primary); background: var(--muted); }
 .header-lang {
 	border: 0; background: none; color: #4b4859; font-size: 12.5px; font-weight: 600;
@@ -512,6 +542,15 @@ body.theme-editorial .header-icon .icon-theme-tool { display: block; }
 .header-logout:hover { background: #fff5f5; border-color: #e5484d; }
 .header-new-btn { padding: 8px 16px; border-radius: 6px; font-size: 12px; box-shadow: none; line-height: 1.2; }
 .header-new-btn:hover { transform: none; box-shadow: none; }
+
+/* ---- 顶栏用户区结构锁定（所有主题共用，主题文件不得覆盖）----
+ * 默认工具风 / 杂志编辑风原本隐藏“管理员”徽章、退出按钮为纯文字；
+ * 新增 10 套主题此前未继承这两条，导致同一位置元素数量与宽度不同。
+ * 这里在公共层统一结构与占位；各主题仍可用颜色令牌改变退出文字颜色，
+ * 属于皮肤层差异，不影响布局骨架。 */
+body[class*="theme-"] .header-admin-tag { display: none; }
+body[class*="theme-"] .header-logout,
+body[class*="theme-"] .header-logout:hover { border: 0; background: none; }
 
 /* ---------- 首页两栏布局 ---------- */
 .home-wrap { max-width: 940px; margin: 0 auto; padding: 30px 16px 60px; display: grid; grid-template-columns: minmax(0, 1fr) 268px; gap: 24px; align-items: start; }
@@ -611,9 +650,13 @@ body.theme-editorial .header-icon .icon-theme-tool { display: block; }
 	.header-lang { font-size: 0; }
 	.header-lang::after { content: '🌐'; font-size: 14px; }
 	.composer-btn { padding: 9px 12px; font-size: 11px; }
-	/* 窄屏顶栏防横向溢出：发布按钮收成图标，搜索框允许收缩 */
+	/* 窄屏顶栏防横向溢出：发布按钮收成图标，站名收窄省略，搜索框允许收缩 */
 	.header-inner { gap: 10px; }
 	.header-actions { gap: 6px; }
+	.brand { max-width: 88px; }
+	.brand-logo, .brand-img,
+	body[class*="theme-"] .brand-logo,
+	body[class*="theme-"] .brand-img { display: none; }
 	.header-new-btn { font-size: 0; padding: 7px 11px; }
 	.header-new-btn::after { content: '🚀'; font-size: 14px; }
 	.header-search, .header-search input { min-width: 0; width: 100%; }
@@ -750,7 +793,18 @@ body.dark .header-logout:hover { background: #3b1418; }
 .comment-compose textarea:focus { border-color: var(--primary); }
 .comment-compose-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; }
 .comment-compose .btn { padding: 9px 20px; font-size: 12px; border-radius: 6px; }
-.detail-comments .comment-item { background: transparent; box-shadow: none; border-radius: 0; border-bottom: 1px solid var(--border); padding: 18px 0; margin: 0; }
+/* 详情评论区：左右分栏圆角卡片 */
+.detail-comments .comment-item {
+	background: var(--card);
+	border: 1px solid var(--border);
+	border-radius: 12px;
+	margin: 0 0 14px;
+	padding: 0;
+	overflow: hidden;
+}
+.detail-comments .comment-main { padding: 18px 20px; min-height: 84px; }
+.detail-comments .comment-author { width: 130px; padding: 16px 18px; }
+.detail-comments .comment-children .comment-item { margin: 12px 16px 12px 40px; background: var(--accent); }
 .comment-login { font-size: 13px; color: var(--muted-foreground); padding: 18px 0; }
 
 /* ---------- 杂志编辑风（米白 + 砖红 + 衬线） ---------- */
@@ -772,7 +826,9 @@ body.theme-editorial {
 	--input: #e7e1d6;
 	--gradient-brand: linear-gradient(135deg, #b44630, #b44630);
 	--gradient-soft: none;
-	--font-sans: 'Noto Serif SC', 'Songti SC', Georgia, serif;
+	/* 正文统一系统中文栈（用户决定2：所有主题中文统一字体栈，避免长文换行跳动）。
+	 * 杂志编辑风的衬线气质改由标题层承担（见下方 .detail-title 的 font-family）。 */
+	--font-sans: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
 	--shadow-card: none;
 }
 body.theme-editorial .site-header { background: #fbf9f4; border-bottom: 1px solid #e7e1d6; }
@@ -811,7 +867,7 @@ body.theme-tool {
 	--input: #e5e7eb;
 	--gradient-brand: linear-gradient(135deg, #4f46e5, #4f46e5);
 	--gradient-soft: none;
-	--font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', sans-serif;
+	--font-sans: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
 	--shadow-card: none;
 }
 body.theme-tool .site-header { background: #fff; border-bottom: 1px solid #e5e7eb; }
@@ -897,21 +953,4 @@ font, font *, [face] {
 	.detail-toc { display: none; }
 	.detail-body { font-size: 15px; }
 	.detail-body table { display: block; overflow-x: auto; }
-}
-
-/* ---------- 评论区新版布局（左内容 · 右作者栏，2026-11-18 按用户截图改版） ---------- */
-.comment-item { padding: 0; gap: 0; overflow: hidden; }
-.detail-comments .comment-item { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-card); padding: 0; margin: 0 0 12px; }
-.comment-main { flex: 1; min-width: 0; display: flex; flex-direction: column; padding: 16px 18px; }
-.comment-main .comment-text { flex: 1; display: flex; flex-direction: column; justify-content: center; }
-.comment-main .comment-actions { margin-top: 14px; justify-content: flex-end; }
-.comment-side { width: 100px; flex-shrink: 0; border-left: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 6px; padding: 14px 8px; }
-.comment-author { font-size: 14px; font-weight: 700; color: var(--foreground); word-break: break-all; }
-.comment-time { font-size: 12px; color: var(--muted-foreground); }
-.comment-child { margin-left: 48px; }
-.comment-child .comment-side { width: 88px; padding: 12px 6px; }
-@media (max-width: 640px) {
-	.comment-side { width: 84px; padding: 12px 6px; }
-	.comment-child { margin-left: 20px; }
-	.comment-child .comment-side { width: 76px; }
 }

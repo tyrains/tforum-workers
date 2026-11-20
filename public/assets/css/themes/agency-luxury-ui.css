@@ -1,0 +1,150 @@
+/* agency-luxury-ui · 纯皮肤层主题：仅颜色/背景/圆角/阴影/字体族，全部尺寸与布局继承公共 style.css */
+body.theme-agency-luxury-ui{/* design_variance=9 motion_intensity=8 visual_density=3 */
+	--t-bg:#0D0B09;--t-panel:#14110D;--t-panel2:#1C1813;--t-ink:#F4EEE3;--t-ink2:#C9BFA9;--t-mute:#9C927C;--t-hair:rgba(244,238,227,.14);--t-hair2:rgba(244,238,227,.24);--t-scroll:#4A4237;--t-accent:#C8A24B;--t-accent-deep:#C8A24B;--t-accent-soft:rgba(200,162,75,.10);--t-link:#C8A24B;--t-ok:#7A9A6B;--t-danger:#C26A5A;--t-brand-fg:#0D0B09;--t-header-bg:rgba(13,11,9,.88);--t-display:'Archivo','Noto Sans SC',sans-serif;--background:#0D0B09;--foreground:#F4EEE3;--card:#14110D;--card-foreground:#F4EEE3;--muted:#1C1813;--muted-foreground:#9C927C;--primary:#C8A24B;--primary-foreground:#0D0B09;--secondary:#1C1813;--secondary-foreground:#C8A24B;--accent:#1C1813;--accent-foreground:#C8A24B;--border:rgba(244,238,227,.14);--input:rgba(244,238,227,.24);--ring:#C8A24B;--destructive:#C26A5A;--color-sakura:#C8A24B;--color-lavender:#C8A24B;--color-sky:#C8A24B;--color-peach:#C8A24B;--color-mint:#7A9A6B;--color-gold:#C8A24B;--gradient-brand:#C8A24B;--radius-sm:0px;--radius:0px;--radius-lg:0px;--radius-full:999px;/* 标签胶囊除外 */
+	--shadow-card:none;--shadow-elevated:none;--shadow-hover:none;--font-sans:"PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;--font-mono:"PingFang SC", Consolas, monospace}
+.theme-agency-luxury-ui{color-scheme:dark;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;scrollbar-color:var(--t-scroll) var(--t-bg);scrollbar-width:thin}
+.theme-agency-luxury-ui ::-webkit-scrollbar-track{background:var(--t-bg)}
+.theme-agency-luxury-ui ::-webkit-scrollbar-thumb{background:var(--t-scroll);border:1px solid var(--t-bg);border-radius:8px}
+.theme-agency-luxury-ui a:focus-visible,.theme-agency-luxury-ui button:focus-visible,.theme-agency-luxury-ui input:focus-visible,
+.theme-agency-luxury-ui textarea:focus-visible,.theme-agency-luxury-ui select:focus-visible,.theme-agency-luxury-ui .forum-row:focus-visible{outline:2px solid var(--t-accent);outline-offset:2px}
+.theme-agency-luxury-ui a,.theme-agency-luxury-ui .forum-row{color:var(--t-link)}
+.theme-agency-luxury-ui .site-header{background:var(--t-header-bg);border-bottom:1px solid var(--t-hair);box-shadow:none}
+.theme-agency-luxury-ui .brand{color:var(--t-ink);font-weight:750;letter-spacing:-.02em;font-family:var(--t-display)}
+.theme-agency-luxury-ui .brand:hover{color:var(--t-link)}
+.theme-agency-luxury-ui .brand-logo{background:var(--t-accent);color:var(--t-brand-fg);box-shadow:none}
+.theme-agency-luxury-ui .brand-img{border:1px solid var(--t-hair2)}
+.theme-agency-luxury-ui .header-search input{background-color:var(--t-panel);border:1px solid var(--t-hair2);color:var(--t-ink);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='none' stroke='%239C927C' stroke-width='2' viewBox='0 0 24 24'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-4-4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:12px center}
+.theme-agency-luxury-ui .header-search input::placeholder{color:var(--t-mute)}
+.theme-agency-luxury-ui .header-search input:focus{border-color:var(--t-accent);box-shadow:0 0 0 3px var(--t-accent-soft)}
+.theme-agency-luxury-ui .header-icon{color:var(--t-mute)}
+.theme-agency-luxury-ui .header-icon:hover{color:var(--t-ink);background:var(--t-panel2)}
+.theme-agency-luxury-ui .header-avatar,.theme-agency-luxury-ui .header-avatar-letter{background:var(--t-accent-deep);color:var(--t-brand-fg)}
+.theme-agency-luxury-ui .header-username{color:var(--t-ink)}
+.theme-agency-luxury-ui .header-admin-tag{background:var(--t-panel2);color:var(--t-link);border:1px solid var(--t-hair)}
+.theme-agency-luxury-ui .header-logout{background:transparent;border:1px solid var(--t-hair2);color:var(--t-danger)}
+.theme-agency-luxury-ui .header-logout:hover{background:var(--t-accent-soft);border-color:var(--t-danger)}
+.theme-agency-luxury-ui .header-new-btn{box-shadow:var(--shadow-hover)}
+.theme-agency-luxury-ui .header-new-btn:hover{transform:none}
+.theme-agency-luxury-ui .card,.theme-agency-luxury-ui .detail-comments .comment-item,.theme-agency-luxury-ui .comment-item{box-shadow:var(--shadow-card)}
+.theme-agency-luxury-ui .btn{box-shadow:var(--shadow-hover)}
+.theme-agency-luxury-ui .btn:hover{box-shadow:var(--shadow-hover);transform:none;filter:brightness(1.08)}
+.theme-agency-luxury-ui .btn:active{transform:scale(.97)}
+.theme-agency-luxury-ui .btn-primary{background:var(--t-accent-deep);color:var(--t-brand-fg)}
+.theme-agency-luxury-ui .btn-outline{border-color:var(--t-hair2);color:var(--t-ink)}
+.theme-agency-luxury-ui .flash.success{color:var(--t-ok)}
+.theme-agency-luxury-ui .flash.error{color:var(--t-danger);border-color:var(--t-hair2)}
+.theme-agency-luxury-ui .badge{background:var(--t-panel2);color:var(--t-ink2)}
+.theme-agency-luxury-ui .badge.primary{background:var(--t-accent-soft);color:var(--t-link)}
+.theme-agency-luxury-ui .badge.pin{background:var(--t-accent-soft);color:var(--t-accent)}
+.theme-agency-luxury-ui .badge.locked,.theme-agency-luxury-ui .badge.admin{color:var(--t-link)}
+.theme-agency-luxury-ui .input,.theme-agency-luxury-ui .textarea,.theme-agency-luxury-ui .select{background:var(--t-panel);border-color:var(--t-hair2);color:var(--t-ink)}
+.theme-agency-luxury-ui .input:focus,.theme-agency-luxury-ui .textarea:focus,.theme-agency-luxury-ui .select:focus{border-color:var(--t-accent);box-shadow:0 0 0 3px var(--t-accent-soft)}
+.theme-agency-luxury-ui .forum-toolbar{border-bottom-color:var(--t-hair)}
+.theme-agency-luxury-ui .forum-tabs a{color:var(--t-mute)}
+.theme-agency-luxury-ui .forum-tabs a:hover,.theme-agency-luxury-ui .forum-tabs a.active{color:var(--t-ink)}
+.theme-agency-luxury-ui .forum-tabs a.active{border-bottom-color:var(--t-accent);font-weight:700}
+.theme-agency-luxury-ui .forum-new{background:var(--t-accent-deep);color:var(--t-brand-fg)}
+.theme-agency-luxury-ui .forum-row{border-bottom-color:var(--t-hair)}
+.theme-agency-luxury-ui .forum-row:not(.forum-thead):hover{background:var(--t-panel2)}
+.theme-agency-luxury-ui .forum-thead{color:var(--t-mute)}
+.theme-agency-luxury-ui .cell-title{color:var(--t-ink)}
+.theme-agency-luxury-ui .cell-cat,.theme-agency-luxury-ui .cell-author,.theme-agency-luxury-ui .cell-date,.theme-agency-luxury-ui .cell-num{color:var(--t-ink2)}
+.theme-agency-luxury-ui .forum-row .cell-num{font-family:var(--font-mono)}
+.theme-agency-luxury-ui .pin-dot{color:var(--t-accent)}
+.theme-agency-luxury-ui .forum-empty,.theme-agency-luxury-ui .forum-pagination{color:var(--t-mute)}
+.theme-agency-luxury-ui .forum-pagination a{color:var(--t-link)}
+.theme-agency-luxury-ui .composer-card,.theme-agency-luxury-ui .side-card,.theme-agency-luxury-ui .pill,.theme-agency-luxury-ui .home-pagination a{background:var(--t-panel);box-shadow:var(--shadow-card)}
+.theme-agency-luxury-ui .composer-input{background:var(--t-panel2);color:var(--t-mute)}
+.theme-agency-luxury-ui .composer-input:hover{background:var(--t-panel2);color:var(--t-ink2)}
+.theme-agency-luxury-ui .pill{color:var(--t-ink2);border-color:var(--t-hair)}
+.theme-agency-luxury-ui .pill.active{background:var(--t-accent-deep);color:var(--t-brand-fg);border-color:var(--t-accent-deep)}
+.theme-agency-luxury-ui .result-count,.theme-agency-luxury-ui .home-pagination,.theme-agency-luxury-ui .cat-count,.theme-agency-luxury-ui .site-footer p{color:var(--t-mute)}
+.theme-agency-luxury-ui .post-row{border-bottom-color:var(--t-hair)}
+.theme-agency-luxury-ui .post-row:hover{background:var(--t-panel2)}
+.theme-agency-luxury-ui .post-row-title,.theme-agency-luxury-ui .side-card h3,.theme-agency-luxury-ui .cat-item{color:var(--t-ink)}
+.theme-agency-luxury-ui .post-row-meta{color:var(--t-mute)}
+.theme-agency-luxury-ui .post-row-author{color:var(--t-ink2)}
+.theme-agency-luxury-ui .post-cat-tag,.theme-agency-luxury-ui .post-cat-tag.general,.theme-agency-luxury-ui .post-cat-tag.tech,.theme-agency-luxury-ui .post-cat-tag.random{background:var(--t-accent-soft);color:var(--t-link)}
+.theme-agency-luxury-ui .home-pagination a{color:var(--t-ink2);border-color:var(--t-hair)}
+.theme-agency-luxury-ui .side-card>p{color:var(--t-ink2)}
+.theme-agency-luxury-ui .cat-item:hover{background:var(--t-panel2)}
+.theme-agency-luxury-ui .cat-item.active{background:var(--t-panel2);color:var(--t-link)}
+.theme-agency-luxury-ui .cat-item.active .cat-count{color:var(--t-link)}
+.theme-agency-luxury-ui .site-footer{border-top-color:var(--t-hair)}
+.theme-agency-luxury-ui .detail-title,.theme-agency-luxury-ui .comments-title,.theme-agency-luxury-ui .page-heading h1,
+.theme-agency-luxury-ui .auth-card h1,.theme-agency-luxury-ui .profile-name,.theme-agency-luxury-ui .settings-panel h2,.theme-agency-luxury-ui .modal h3{font-family:var(--t-display);font-weight:800;letter-spacing:-.02em}
+.theme-agency-luxury-ui .detail-meta{border-bottom-color:var(--t-hair);color:var(--t-mute)}
+.theme-agency-luxury-ui .detail-back,.theme-agency-luxury-ui .detail-edit{color:var(--t-mute)}
+.theme-agency-luxury-ui .detail-back:hover{color:var(--t-link)}
+.theme-agency-luxury-ui .detail-body,.theme-agency-luxury-ui .markdown{color:var(--t-ink2)}
+.theme-agency-luxury-ui .detail-body h1,.theme-agency-luxury-ui .detail-body h2,.theme-agency-luxury-ui .detail-body h3,
+.theme-agency-luxury-ui .markdown h1,.theme-agency-luxury-ui .markdown h2,.theme-agency-luxury-ui .markdown h3{color:var(--t-ink)}
+.theme-agency-luxury-ui .detail-body a,.theme-agency-luxury-ui .markdown a{color:var(--t-link)}
+.theme-agency-luxury-ui .detail-body pre,.theme-agency-luxury-ui .markdown pre{background:var(--t-panel2);color:var(--t-ink);border:1px solid var(--t-hair);border-radius:var(--radius-sm)}
+.theme-agency-luxury-ui .detail-body :not(pre)>code,.theme-agency-luxury-ui .markdown code.md-code{background:var(--t-panel2);color:var(--t-link);border:1px solid var(--t-hair)}
+.theme-agency-luxury-ui .detail-body blockquote,.theme-agency-luxury-ui .markdown blockquote{background:var(--t-panel2);color:var(--t-ink2);border-left:1px solid var(--t-accent)}
+.theme-agency-luxury-ui .detail-body table,.theme-agency-luxury-ui .markdown table,.theme-agency-luxury-ui .detail-body th,.theme-agency-luxury-ui .detail-body td,.theme-agency-luxury-ui .markdown th,.theme-agency-luxury-ui .markdown td{border-color:var(--t-hair)}
+.theme-agency-luxury-ui .markdown th{background:var(--t-panel2);color:var(--t-ink2)}
+.theme-agency-luxury-ui .markdown hr{border-top-color:var(--t-hair)}
+.theme-agency-luxury-ui .detail-actions{border-top-color:var(--t-hair)}
+.theme-agency-luxury-ui .detail-likers{color:var(--t-mute)}
+.theme-agency-luxury-ui .like-btn{background:var(--t-panel);border-color:var(--t-hair2);color:var(--t-ink2)}
+.theme-agency-luxury-ui .like-btn:hover{border-color:var(--t-accent)}
+.theme-agency-luxury-ui .like-btn.liked{background:var(--t-accent-soft);border-color:var(--t-accent);color:var(--t-link)}
+.theme-agency-luxury-ui .detail-delete{color:var(--t-danger)}
+.theme-agency-luxury-ui .toc-title{color:var(--t-link)}
+.theme-agency-luxury-ui #toc-list a{color:var(--t-mute)}
+.theme-agency-luxury-ui #toc-list a:hover,.theme-agency-luxury-ui #toc-list a.active{color:var(--t-link)}
+.theme-agency-luxury-ui .detail-comments{border-top-color:var(--t-hair)}
+.theme-agency-luxury-ui .comments-empty,.theme-agency-luxury-ui .comment-login{color:var(--t-mute)}
+.theme-agency-luxury-ui .detail-comments .comment-children .comment-item,.theme-agency-luxury-ui .comment-children .comment-item{background:var(--t-panel2)}
+.theme-agency-luxury-ui .comment-author{border-left-color:var(--t-hair)}
+.theme-agency-luxury-ui .comment-author strong{color:var(--t-ink)}
+.theme-agency-luxury-ui .comment-time{color:var(--t-mute)}
+.theme-agency-luxury-ui .comment-text{color:var(--t-ink2)}
+.theme-agency-luxury-ui .comment-actions button{color:var(--t-mute)}
+.theme-agency-luxury-ui .comment-actions button:hover{color:var(--t-link)}
+.theme-agency-luxury-ui .comment-compose textarea{background:var(--t-panel);border-color:var(--t-hair2);color:var(--t-ink)}
+.theme-agency-luxury-ui .comment-compose textarea:focus{border-color:var(--t-accent)}
+.theme-agency-luxury-ui .editor-toolbar{background:var(--t-panel2);border-color:var(--t-hair2)}
+.theme-agency-luxury-ui .editor-toolbar button{background:var(--t-panel);color:var(--t-ink2);border:1px solid var(--t-hair)}
+.theme-agency-luxury-ui .editor-toolbar button:hover{background:var(--t-accent-deep);color:var(--t-brand-fg)}
+.theme-agency-luxury-ui .editor-preview{border-color:var(--t-hair2)}
+.theme-agency-luxury-ui .auth-card .subtitle,.theme-agency-luxury-ui .profile-bio{color:var(--t-ink2)}
+.theme-agency-luxury-ui .profile-banner{background:var(--t-accent)}
+.theme-agency-luxury-ui .profile-stats{border-color:var(--t-hair)}
+.theme-agency-luxury-ui .profile-stats strong{font-family:var(--font-mono)}
+.theme-agency-luxury-ui .profile-stats span{color:var(--t-mute)}
+.theme-agency-luxury-ui .settings-nav button:hover,.theme-agency-luxury-ui .admin-sidebar button:hover{background:var(--t-panel2)}
+.theme-agency-luxury-ui .settings-nav button.active{background:var(--t-panel2);color:var(--t-link)}
+.theme-agency-luxury-ui .admin-sidebar button.active{background:var(--t-accent-deep);color:var(--t-brand-fg)}
+.theme-agency-luxury-ui .form-section-title{color:var(--t-link);border-bottom-color:var(--t-hair)}
+.theme-agency-luxury-ui .data-table th{border-bottom-color:var(--t-hair2)}
+.theme-agency-luxury-ui .data-table td{border-bottom-color:var(--t-hair)}
+.theme-agency-luxury-ui .data-table tr:hover td{background:var(--t-panel2)}
+.theme-agency-luxury-ui .stat-icon{background:var(--t-panel2);border:1px solid var(--t-hair)}
+.theme-agency-luxury-ui .stat-num{font-family:var(--font-mono)}
+.theme-agency-luxury-ui .stat-label{color:var(--t-mute)}
+.theme-agency-luxury-ui .theme-chip{background:var(--t-panel2);border-color:var(--t-hair);color:var(--t-ink2)}
+.theme-agency-luxury-ui .theme-chip:hover,.theme-agency-luxury-ui .theme-chip.active{border-color:var(--t-accent);color:var(--t-link)}
+.theme-agency-luxury-ui .theme-chip-swatch{border-color:var(--t-hair2)}
+.theme-agency-luxury-ui .dropdown,.theme-agency-luxury-ui .popover,.theme-agency-luxury-ui .modal{background:var(--t-panel2);border:1px solid var(--t-hair2);box-shadow:var(--shadow-hover)}
+.theme-agency-luxury-ui .dropdown a:hover,.theme-agency-luxury-ui .dropdown button:hover{background:var(--t-panel);color:var(--t-ink)}
+.theme-agency-luxury-ui .modal-overlay{background:rgba(0,0,0,.55)}
+.theme-agency-luxury-ui .toast{background:var(--t-panel2);border-color:var(--t-hair2);box-shadow:var(--shadow-hover)}
+.theme-agency-luxury-ui img{background-color:var(--t-panel)}
+.theme-agency-luxury-ui .avatar,.theme-agency-luxury-ui .post-author-avatar,.theme-agency-luxury-ui .header-avatar,.theme-agency-luxury-ui .profile-avatar{border:1px solid var(--t-hair)}
+.theme-agency-luxury-ui iframe,.theme-agency-luxury-ui video,.theme-agency-luxury-ui embed{border:1px solid var(--t-hair);background:var(--t-panel)}
+.theme-agency-luxury-ui input[type='date']::-webkit-calendar-picker-indicator{filter:invert(.85);cursor:pointer}
+.theme-agency-luxury-ui .data-table th{background:var(--t-panel2)}
+.theme-agency-luxury-ui select option{background:var(--t-panel);color:var(--t-ink)}
+.theme-agency-luxury-ui .site-header{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.theme-agency-luxury-ui .forum-table{counter-reset:post}
+.theme-agency-luxury-ui .pill,.theme-agency-luxury-ui .badge{border:1px solid var(--t-hair);border-radius:var(--radius-full);background:transparent;color:var(--t-ink2)}
+.theme-agency-luxury-ui .page-heading{background:radial-gradient(600px 180px at 0% 0%,rgba(200,162,75,.16),transparent 70%)}
+.theme-agency-luxury-ui .page-heading h1,.theme-agency-luxury-ui .detail-title{animation:agency-fade .8s cubic-bezier(.2,.8,.2,1) both}
+@media(prefers-reduced-motion:reduce){
+	.theme-agency-luxury-ui *,.theme-agency-luxury-ui *::before,.theme-agency-luxury-ui *::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
+
+/* 已删除 1 条占流装饰伪元素（刊头/编号角标）：布局骨架优先，气质由配色与字体体现 */

@@ -1,6 +1,6 @@
 /** 帖子详情页：正文 + 点赞 + 楼中楼评论（对应 pages/post.php，链接改干净路径） */
 import type { Ctx } from '../lib/ctx';
-import { assetUrl, e, fmtDateTime, timeAgo } from '../lib/core';
+import { assetUrl, e, formatDatetime, fmtDateTime } from '../lib/core';
 import { currentUser } from '../lib/auth';
 import { postSelectSql, renderMarkdown } from '../lib/content';
 import type { Row } from '../lib/db';
@@ -14,7 +14,7 @@ export async function renderPost(ctx: Ctx, postId: number): Promise<string> {
     return '<div class="empty card"><div class="empty-icon">😕</div><p>帖子不存在或已被隐藏</p><a class="btn" href="/">返回首页</a></div>';
   }
   const p = post as Row;
-  const commentMax = await ctx.settings.int('comment_max_length', 3000, 100, 100000);
+  const commentMax = await ctx.settings.strictInt('comment_max_length', 500, 1, 1000000);
 
   await ctx.db.run('UPDATE posts SET view_count = COALESCE(view_count,0) + 1 WHERE id = ?', [postId]);
   p.view_count = Number(p.view_count) + 1;
@@ -67,6 +67,7 @@ export async function renderPost(ctx: Ctx, postId: number): Promise<string> {
   }
   for (const c of comments) {
     if (c.parent_id) continue;
+    const children = comments.filter((child) => Number(child.parent_id) === Number(c.id));
     h += `\t\t\t\t\t<div class="comment-item card" id="comment-${Number(c.id)}">\n`;
     h += '\t\t\t\t\t\t<div class="comment-main">\n';
     h += `\t\t\t\t\t\t\t<div class="comment-text markdown">${renderMarkdown(String(c.content))}</div>\n`;
@@ -78,26 +79,29 @@ export async function renderPost(ctx: Ctx, postId: number): Promise<string> {
       h += `\t\t\t\t\t\t\t\t<button data-confirm="删除这条评论？" data-delete="comments/${Number(c.id)}">🗑 删除</button>\n`;
     }
     h += '\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n';
-    h += '\t\t\t\t\t\t<div class="comment-side">\n';
-    h += `\t\t\t\t\t\t\t<a class="comment-author" href="/profile?id=${Number(c.author_id)}">${e(c.username)}</a>\n`;
-    h += `\t\t\t\t\t\t\t<span class="comment-time">${e(timeAgo(String(c.created_at)))}</span>\n`;
-    if (c.status === 'locked') h += '\t\t\t\t\t\t\t<span class="badge locked">审核中</span>\n';
-    h += '\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n';
-    const children = comments.filter((child) => Number(child.parent_id) === Number(c.id));
-    for (const child of children) {
-      h += `\t\t\t\t\t<div class="comment-item card comment-child" id="comment-${Number(child.id)}">\n`;
-      h += '\t\t\t\t\t\t<div class="comment-main">\n';
-      h += `\t\t\t\t\t\t\t<div class="comment-text markdown">${renderMarkdown(String(child.content))}</div>\n`;
-      h += '\t\t\t\t\t\t\t<div class="comment-actions">\n';
-      if (viewer && p.status !== 'locked') {
-        h += `\t\t\t\t\t\t\t\t<button data-reply="${Number(c.id)}">↩ 回复</button>\n`;
+    h += '\t\t\t\t\t\t<div class="comment-author">\n';
+    h += `\t\t\t\t\t\t\t<a href="/profile?id=${Number(c.author_id)}"><strong>${e(c.username)}</strong></a>\n`;
+    h += `\t\t\t\t\t\t\t<span class="comment-time">${e(formatDatetime(String(c.created_at)))}</span>\n`;
+    h += '\t\t\t\t\t\t</div>\n';
+    if (children.length) {
+      h += '\t\t\t\t\t\t<div class="comment-children">\n';
+      for (const child of children) {
+        h += `\t\t\t\t\t\t\t<div class="comment-item card" id="comment-${Number(child.id)}">\n`;
+        h += '\t\t\t\t\t\t\t\t<div class="comment-main">\n';
+        h += `\t\t\t\t\t\t\t\t\t<div class="comment-text markdown">${renderMarkdown(String(child.content))}</div>\n`;
+        h += '\t\t\t\t\t\t\t\t\t<div class="comment-actions">\n';
+        if (viewer && p.status !== 'locked') {
+          h += `\t\t\t\t\t\t\t\t\t\t<button data-reply="${Number(c.id)}">↩ 回复</button>\n`;
+        }
+        h += '\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n';
+        h += '\t\t\t\t\t\t\t\t<div class="comment-author">\n';
+        h += `\t\t\t\t\t\t\t\t\t<a href="/profile?id=${Number(child.author_id)}"><strong>${e(child.username)}</strong></a>\n`;
+        h += `\t\t\t\t\t\t\t\t\t<span class="comment-time">${e(formatDatetime(String(child.created_at)))}</span>\n`;
+        h += '\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n';
       }
-      h += '\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n';
-      h += '\t\t\t\t\t\t<div class="comment-side">\n';
-      h += `\t\t\t\t\t\t\t<span class="comment-author">${e(child.username)}</span>\n`;
-      h += `\t\t\t\t\t\t\t<span class="comment-time">${e(timeAgo(String(child.created_at)))}</span>\n`;
-      h += '\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n';
+      h += '\t\t\t\t\t\t</div>\n';
     }
+    h += '\t\t\t\t\t</div>\n';
   }
   h += '\n';
   if (viewer && p.status !== 'locked') {

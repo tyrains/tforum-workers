@@ -4,35 +4,41 @@
  * 链接改为干净路径，静态资源版本号用固定构建版本代替 filemtime。
  */
 import { ASSET_VERSION, type Ctx } from './ctx';
-import { assetUrl, e, mbSubstr, normalizeAssetUrls, publicUser } from './core';
+import { assetUrl, DEFAULT_SITE_TITLE, e, mbSubstr, normalizeAssetUrls, publicUser } from './core';
 import { csrfToken, currentUser } from './auth';
-import { currentLocale, locales, t } from './i18n';
+import { currentLocale, t } from './i18n';
+import { themeCssPath, themeEnabledIds, themeIsValid, themeNamesMap, themeNext } from './theme-registry';
 import { sanitizeHtml, stripForbiddenFonts } from './content';
 import { FLASH_COOKIE } from './ctx';
 
 const THEME_MAG_SVG = '<svg class="icon-theme-mag" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6.5C10.5 5 8.6 4.3 6 4.3H4v14h2c2.6 0 4.5.7 6 2.2 1.5-1.5 3.4-2.2 6-2.2h2v-14h-2c-2.6 0-4.5.7-6 2.2z"/><line x1="12" y1="6.5" x2="12" y2="20.5"/></svg>';
 const THEME_TOOL_SVG = '<svg class="icon-theme-tool" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><line x1="3.5" y1="9.5" x2="20.5" y2="9.5"/><line x1="9.5" y1="9.5" x2="9.5" y2="19.5"/></svg>';
+const THEME_CYCLE_SVG = '<svg class="icon-theme-cycle" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 7v5h-5"/><path d="M4 17v-5h5"/><path d="M6.1 9A7 7 0 0 1 18.5 7L20 9"/><path d="M17.9 15A7 7 0 0 1 5.5 17L4 15"/></svg>';
 
-/** 当前主题（Cookie 优先，其次站点默认；非法值回落 tool）——layout 与 settings 页共用 */
-export async function resolveTheme(ctx: Ctx): Promise<'editorial' | 'tool'> {
+/** 当前主题（Cookie 优先，其次站点默认；合法性由注册表统一判定，非法值回落 tool）——layout 与 settings 页共用 */
+export async function resolveTheme(ctx: Ctx): Promise<string> {
   const cookieTheme = ctx.cookies.get('cforum_theme');
   const theme = cookieTheme ?? (await ctx.settings.get('site_theme', 'tool'));
-  return theme === 'editorial' || theme === 'tool' ? theme : 'tool';
+  return themeIsValid(theme) ? theme : 'tool';
 }
 
 /** 输出页面头部（对应 page_header()） */
 export async function pageHeader(ctx: Ctx, title = ''): Promise<string> {
-  const siteTitle = await ctx.settings.get('site_title', 'TForum');
+  const siteTitle = await ctx.settings.get('site_title', DEFAULT_SITE_TITLE);
   const fullTitle = title !== '' ? title + ' - ' + siteTitle : siteTitle;
   const user = await currentUser(ctx);
   const locale = currentLocale(ctx);
   const theme = await resolveTheme(ctx);
-  const themeNames: Record<string, string> = {
-    editorial: t(ctx, 'theme_editorial', {}, '杂志编辑风'),
-    tool: t(ctx, 'theme_tool', {}, '默认工具风'),
-  };
-  const nextTheme = theme === 'tool' ? 'editorial' : 'tool';
+  const themeNames = themeNamesMap(ctx, true);
+  const nextTheme = themeNext(theme);
   const themeTip = '切换主题 · 当前：' + themeNames[theme] + '（点击切换为 ' + themeNames[nextTheme] + '）';
+  // 主题样式表地址表（注入前端供无刷新切换；内置两套无专属 CSS，值为空串）
+  const themeCss: Record<string, string> = {};
+  for (const id of themeEnabledIds()) {
+    const p = themeCssPath(id);
+    themeCss[id] = p ? '/' + p + '?v=' + ASSET_VERSION : '';
+  }
+  const curThemeCss = themeCssPath(theme);
   // 按钮本身就是一个可用的链接：JS 失效时由入口的 ?theme= 通道兜底切换
   const themeQuery = new URLSearchParams(ctx.url.searchParams);
   themeQuery.delete('theme');
@@ -46,7 +52,6 @@ export async function pageHeader(ctx: Ctx, title = ''): Promise<string> {
   const announcement = await ctx.settings.get('site_announcement', '');
   const robots = (await ctx.settings.get('force_login', '0')) === '1' ? 'noindex, nofollow' : 'index, follow';
   const csrf = await csrfToken(ctx);
-  const localeInfo = locales()[locale] ?? { label: '简体中文', flag: '🇨🇳' };
   const userJson = user ? normalizeAssetUrls(publicUser(user)) : null;
 
   let h = '';
@@ -62,11 +67,16 @@ export async function pageHeader(ctx: Ctx, title = ''): Promise<string> {
   h += '\t<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">\n';
   if (favicon) h += `\t<link rel="icon" href="${e(assetUrl(favicon))}">\n`;
   h += `\t<link rel="stylesheet" href="/assets/css/style.css?v=${ASSET_VERSION}">\n`;
+  if (curThemeCss) {
+    h += `\t<link rel="stylesheet" id="theme-style" href="/${e(curThemeCss)}?v=${ASSET_VERSION}">\n`;
+  }
   h += '\t<script>\n\t\twindow.CFORUM = {\n';
   h += `\t\t\tbase: ${JSON.stringify(ctx.origin)},\n`;
   h += `\t\t\tlocale: ${JSON.stringify(locale)},\n`;
   h += `\t\t\ttheme: ${JSON.stringify(theme)},\n`;
   h += `\t\t\tthemes: ${JSON.stringify(themeNames)},\n`;
+  h += `\t\t\tthemeOrder: ${JSON.stringify(themeEnabledIds())},\n`;
+  h += `\t\t\tthemeCss: ${JSON.stringify(themeCss)},\n`;
   h += `\t\t\tuser: ${JSON.stringify(userJson)}\n`;
   h += '\t\t};\n\t</script>\n';
   h += '\t<style>\n';
@@ -84,21 +94,12 @@ export async function pageHeader(ctx: Ctx, title = ''): Promise<string> {
   } else {
     h += '\t\t\t<span class="brand-logo">T</span>\n';
   }
-  h += `\t\t\t<span>${e(siteTitle)}</span>\n\t\t</a>\n`;
+  h += `\t\t\t<span class="brand-name" title="${e(siteTitle)}">${e(siteTitle)}</span>\n\t\t</a>\n`;
   h += '\t\t<form class="header-search" method="get" action="/">\n';
   h += `\t\t\t<input type="search" name="q" value="${e(ctx.strParam('q', ''))}" placeholder="${e(t(ctx, 'searchPlaceholder', {}, '搜索标题 / 内容'))}">\n`;
   h += '\t\t</form>\n';
   h += '\t\t<div class="header-actions">\n';
-  h += `\t\t\t<a class="header-icon" id="theme-toggle" href="${e(themeHref)}" data-theme-target="${e(nextTheme)}" role="button" title="${e(themeTip)}" aria-label="${e(themeTip)}">${THEME_MAG_SVG}${THEME_TOOL_SVG}</a>\n`;
-  h += '\t\t\t<div style="position:relative">\n';
-  h += `\t\t\t\t<button class="header-lang" id="lang-toggle" title="${e(t(ctx, 'switchLanguage', {}, '切换语言'))}">${e(localeInfo.flag)} ${e(localeInfo.label)}</button>\n`;
-  h += '\t\t\t\t<div class="popover" id="lang-popover">\n';
-  h += `\t\t\t\t\t<h4>${e(t(ctx, 'switchLanguage', {}, '切换语言'))}</h4>\n`;
-  h += '\t\t\t\t\t<div class="lang-list">\n';
-  for (const [code, info] of Object.entries(locales())) {
-    h += `\t\t\t\t\t\t<button data-lang="${e(code)}" class="${locale === code ? 'active' : ''}">${info.flag} ${e(info.label)}</button>\n`;
-  }
-  h += '\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n';
+  h += `\t\t\t<a class="header-icon" id="theme-toggle" href="${e(themeHref)}" data-theme-target="${e(nextTheme)}" role="button" title="${e(themeTip)}" aria-label="${e(themeTip)}">${THEME_MAG_SVG}${THEME_TOOL_SVG}${THEME_CYCLE_SVG}</a>\n`;
   if (user) {
     h += '\t\t\t<div class="user-menu">\n\t\t\t\t<button class="user-trigger" id="user-toggle">\n';
     if (user.avatar_url && String(user.avatar_url).includes('uploads/')) {
@@ -142,7 +143,7 @@ export async function pageFooter(ctx: Ctx): Promise<string> {
   const icp = await ctx.settings.get('site_icp', '');
   const footerHtml = await ctx.settings.get('site_footer_html', '');
   let h = '\n</main>\n<footer class="site-footer">\n\t<div class="container">\n';
-  h += '\t\t<p>Powered by <a class="powered-link" href="https://github.com/tyrains/tforum-workers" target="_blank" rel="noopener noreferrer">TForum</a></p>\n';
+  h += '\t\t<p>Powered by <a class="powered-link" href="https://github.com/tyrains" target="_blank" rel="noopener noreferrer">tyrains</a></p>\n';
   if (icp) h += `\t\t<p>${e(icp)}</p>\n`;
   h += '\t\t' + sanitizeHtml(footerHtml) + '\n';
   h += '\t</div>\n</footer>\n';

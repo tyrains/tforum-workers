@@ -4,6 +4,7 @@ import { assetUrl, e } from '../lib/core';
 import { pageRequireUser } from '../lib/auth';
 import { t } from '../lib/i18n';
 import { resolveTheme, showFlash } from '../lib/layout';
+import { themeDisplayName, themeEnabledIds, themeMeta } from '../lib/theme-registry';
 
 export async function renderSettings(ctx: Ctx): Promise<string> {
   const user = await pageRequireUser(ctx);
@@ -66,10 +67,14 @@ export async function renderSettings(ctx: Ctx): Promise<string> {
   h += '\t\t\t<button class="btn btn-danger" id="delete-account-btn">注销我的账号</button>\n\t\t</section>\n\n';
   // 界面主题
   h += '\t\t<section class="settings-section" data-panel-group="settings" id="panel-appearance">\n\t\t\t<h2>🎨 界面主题</h2>\n';
-  h += '\t\t\t<p style="font-size:13px;color:var(--muted-foreground);margin:0 0 16px">论坛提供「杂志编辑风」与「默认工具风」两套界面主题，切换后立即生效并记住你的选择；也可以直接点顶栏的切换按钮一键互切。</p>\n';
+  h += '\t\t\t<p style="font-size:13px;color:var(--muted-foreground);margin:0 0 16px">切换后立即生效并记住你的选择；也可以直接点顶栏的切换按钮依次浏览所有主题。</p>\n';
   h += '\t\t\t<div class="theme-grid">\n';
-  h += `\t\t\t\t<button type="button" class="theme-chip ${curTheme === 'editorial' ? 'active' : ''}" data-theme="editorial">${e(t(ctx, 'theme_editorial', {}, '杂志编辑风'))}</button>\n`;
-  h += `\t\t\t\t<button type="button" class="theme-chip ${curTheme === 'tool' ? 'active' : ''}" data-theme="tool">${e(t(ctx, 'theme_tool', {}, '默认工具风'))}</button>\n`;
+  // 主题清单由注册表生成：色块取注册表的 [底色, 强调色]，与顶栏循环顺序一致
+  for (const id of themeEnabledIds()) {
+    const meta = themeMeta(id)!;
+    const swatchStyle = `background:linear-gradient(135deg,${meta.swatch[0]} 50%,${meta.swatch[1]} 50%)`;
+    h += `\t\t\t\t<button type="button" class="theme-chip ${curTheme === id ? 'active' : ''}" data-theme="${e(id)}" title="${e(themeDisplayName(ctx, id))}"><span class="theme-chip-swatch" style="${e(swatchStyle)}"></span><span class="theme-chip-name">${e(themeDisplayName(ctx, id))}</span></button>\n`;
+  }
   h += '\t\t\t</div>\n\t\t</section>\n\t</div>\n</div>\n\n';
   h += `<script>
 // 头像上传

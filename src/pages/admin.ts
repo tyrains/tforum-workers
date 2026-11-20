@@ -1,8 +1,9 @@
 /** 管理后台页（对应 pages/admin.php：概览/用户/帖子/评论/分类/站点设置/文件清理/审计日志） */
 import type { Ctx } from '../lib/ctx';
-import { e, mbSubstr, timeAgo } from '../lib/core';
+import { DEFAULT_SITE_TITLE, e, mbSubstr, timeAgo } from '../lib/core';
 import { pageRequireAdmin } from '../lib/auth';
 import { t } from '../lib/i18n';
+import { themeDisplayName, themeEnabledIds, themeIsValid, themeMeta } from '../lib/theme-registry';
 import { markdownExcerpt, postSelectSql } from '../lib/content';
 import { showFlash } from '../lib/layout';
 import type { Row } from '../lib/db';
@@ -134,18 +135,21 @@ export async function renderAdmin(ctx: Ctx): Promise<string> {
   }
   h += '\t\t\t\t</tbody>\n\t\t\t</table>\n\t\t</section>\n\n';
   // 站点设置
-  const adminTheme = sv('site_theme') === 'editorial' || sv('site_theme') === 'tool' ? sv('site_theme') : 'tool';
+  const adminTheme = themeIsValid(sv('site_theme')) ? sv('site_theme') : 'tool';
   h += '\t\t<section class="admin-panel card" data-panel-group="admin" id="panel-site">\n\t\t\t<h3 style="margin:0 0 16px;font-size:17px">⚙️ 站点设置</h3>\n\t\t\t<form id="settings-form-admin">\n';
   h += '\t\t\t\t<div class="form-section-title">基础信息</div>\n\t\t\t\t<div class="form-grid">\n';
-  h += `\t\t\t\t\t<div class="field"><label>站点名称</label><input class="input" name="site_title" value="${e(sv('site_title'))}"></div>\n`;
-  h += `\t\t\t\t\t<div class="field"><label>主题色</label><input class="input" type="color" name="site_primary_color" value="${e(sv('site_primary_color') || '#4f46e5')}"></div>\n`;
+  h += `\t\t\t\t\t<div class="field"><label>${e(t(ctx, 'siteNameLabel', {}, '站点名称'))}</label><input class="input" name="site_title" maxlength="20" value="${e(sv('site_title') || DEFAULT_SITE_TITLE)}"><span class="hint">${e(t(ctx, 'siteNameHint', {}, '显示在全站顶部和浏览器标题，1–20 个字符，留空恢复为 TForum'))}</span></div>\n`;
+  h += `\t\t\t\t\t<div class="field"><label>主题色</label><input class="input" type="color" name="site_primary_color" value="${e(sv('site_primary_color') || '#4f46e5')}"><span class="hint">${e(t(ctx, 'themeColorHint', {}, '仅对默认两套主题生效'))}</span></div>\n`;
   h += `\t\t\t\t\t<div class="field"><label>站点描述</label><input class="input" name="site_description" value="${e(sv('site_description'))}"></div>\n`;
   h += `\t\t\t\t\t<div class="field"><label>首页每页帖子数</label><input class="input" type="number" name="posts_per_page" min="1" max="100" step="1" value="${e(sv('posts_per_page') || '10')}"></div>\n`;
-  h += `\t\t\t\t\t<div class="field"><label>帖子正文字数上限</label><input class="input" type="number" name="post_max_length" min="100" max="100000" step="100" value="${e(sv('post_max_length') || '3000')}"></div>\n`;
-  h += `\t\t\t\t\t<div class="field"><label>评论字数上限</label><input class="input" type="number" name="comment_max_length" min="100" max="100000" step="100" value="${e(sv('comment_max_length') || '3000')}"></div>\n`;
+  h += `\t\t\t\t\t<div class="field"><label>帖子正文字数上限</label><input class="input" type="number" name="post_max_length" min="1" max="1000000" step="1" value="${e(sv('post_max_length') || '20000')}"></div>\n`;
+  h += `\t\t\t\t\t<div class="field"><label>评论字数上限</label><input class="input" type="number" name="comment_max_length" min="1" max="1000000" step="1" value="${e(sv('comment_max_length') || '500')}"></div>\n`;
   h += '\t\t\t\t\t<div class="field"><label>默认界面主题</label><select class="select" name="site_theme">\n';
-  h += `\t\t\t\t\t\t<option value="editorial" ${adminTheme === 'editorial' ? 'selected' : ''}>${e(t(ctx, 'theme_editorial', {}, '杂志编辑风'))}</option>\n`;
-  h += `\t\t\t\t\t\t<option value="tool" ${adminTheme === 'tool' ? 'selected' : ''}>${e(t(ctx, 'theme_tool', {}, '默认工具风'))}</option>\n`;
+  for (const id of themeEnabledIds()) {
+    const meta = themeMeta(id)!;
+    const label = themeDisplayName(ctx, id) + (meta.mode === 'dark' ? ' · 暗' : '');
+    h += `\t\t\t\t\t\t<option value="${e(id)}" ${adminTheme === id ? 'selected' : ''}>${e(label)}</option>\n`;
+  }
   h += '\t\t\t\t\t</select></div>\n';
   h += `\t\t\t\t\t<div class="field"><label>Logo URL（留空用默认）</label><input class="input" name="site_logo_url" value="${e(sv('site_logo_url'))}"></div>\n`;
   h += `\t\t\t\t\t<div class="field"><label>Favicon URL</label><input class="input" name="site_favicon_url" value="${e(sv('site_favicon_url'))}"></div>\n`;

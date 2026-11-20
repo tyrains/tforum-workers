@@ -6,6 +6,9 @@ import type { Ctx } from './ctx';
 import { ApiError, JsonExit, RedirectExit } from './errors';
 import type { Row } from './db';
 
+/** 站点默认名（对应 config.php 的 DEFAULT_SITE_TITLE；后台「站点设置」可覆盖，存 settings 表） */
+export const DEFAULT_SITE_TITLE = 'TForum';
+
 // ---------- 输出与跳转 ----------
 
 /** HTML 转义（对应 e()：htmlspecialchars ENT_QUOTES） */
@@ -225,9 +228,16 @@ export function fmtFileStamp(unixSeconds: number): string {
   return fmtShanghai(unixSeconds).replace(/[-: ]/g, (c) => (c === ' ' ? '_' : ''));
 }
 
-/** 时间友好显示（对应 time_ago()） */
+/** 把 'YYYY-MM-DD HH:mm:ss' 按 UTC 解析为 unix 秒（v2 起数据库时间按 UTC 口径解析） */
+export function parseDbTimeUtc(s: string): number {
+  const m = /^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2}):(\d{2})/.exec((s ?? '').trim());
+  if (!m) return NaN;
+  return Math.floor(Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +m[6]) / 1000);
+}
+
+/** 时间友好显示（对应 time_ago()；v2 口径：数据库存 UTC，按 UTC 解析后再与当前时间比较） */
 export function timeAgo(datetime: string): string {
-  const ts = parseDbTime(datetime);
+  const ts = parseDbTimeUtc(datetime);
   if (Number.isNaN(ts)) return e(datetime);
   const diff = Math.floor(Date.now() / 1000) - ts;
   if (diff < 60) return '刚刚';
@@ -235,6 +245,18 @@ export function timeAgo(datetime: string): string {
   if (diff < 86400) return Math.floor(diff / 3600) + ' 小时前';
   if (diff < 2592000) return Math.floor(diff / 86400) + ' 天前';
   return fmtDate(datetime);
+}
+
+/**
+ * 绝对时间显示（对应 v2 新增的 format_datetime()）：数据库存的 UTC 时间 → 北京时间，
+ * 格式 Y/m/d H:i。例如 2026-11-19 02:46:00(UTC) → 2026/11/19 10:46。空串返回空串，解析失败回显原文（转义）。
+ */
+export function formatDatetime(datetime: string): string {
+  const s = (datetime ?? '').trim();
+  if (s === '') return '';
+  const ts = parseDbTimeUtc(s);
+  if (Number.isNaN(ts)) return e(s);
+  return fmtShanghai(ts).slice(0, 16).replace(/-/g, '/');
 }
 
 // ---------- 用户公开信息（对应 api_auth.php public_user() / default_avatar()） ----------

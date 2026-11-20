@@ -1,0 +1,151 @@
+/* zinc-spotlight-ui · 纯皮肤层主题：仅颜色/背景/圆角/阴影/字体族，全部尺寸与布局继承公共 style.css */
+body.theme-zinc-spotlight-ui{--t-bg:#09090B;--t-panel:#101012;--t-panel2:#18181B;--t-ink:#FAFAFA;--t-ink2:#C6C6CC;--t-mute:#A1A1AA;--t-hair:rgba(255,255,255,.10);--t-hair2:rgba(255,255,255,.18);--t-scroll:#3F3F46;--t-accent:#A3E635;--t-accent-deep:#A3E635;--t-accent-soft:rgba(163,230,53,.10);--t-link:#A3E635;--t-ok:#A3E635;--t-danger:#F87171;--t-brand-fg:#09090B;--t-header-bg:rgba(9,9,11,.85);--t-display:'Space Grotesk','Noto Sans SC',sans-serif;--background:#09090B;--foreground:#FAFAFA;--card:#101012;--card-foreground:#FAFAFA;--muted:#18181B;--muted-foreground:#A1A1AA;--primary:#A3E635;--primary-foreground:#09090B;--secondary:#18181B;--secondary-foreground:#A3E635;--accent:#18181B;--accent-foreground:#A3E635;--border:rgba(255,255,255,.10);--input:rgba(255,255,255,.18);--ring:#A3E635;--destructive:#F87171;--color-sakura:#A3E635;--color-lavender:#A3E635;--color-sky:#A3E635;--color-peach:#A3E635;--color-mint:#A3E635;--color-gold:#A3E635;--gradient-brand:#A3E635;--radius-sm:9px;--radius:12px;--radius-lg:16px;--radius-full:999px;--shadow-card:none;--shadow-elevated:none;--shadow-hover:none;--font-sans:"PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;--font-mono:"PingFang SC", Consolas, monospace}
+.theme-zinc-spotlight-ui{color-scheme:dark;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;scrollbar-color:var(--t-scroll) var(--t-bg);scrollbar-width:thin}
+.theme-zinc-spotlight-ui ::-webkit-scrollbar-track{background:var(--t-bg)}
+.theme-zinc-spotlight-ui ::-webkit-scrollbar-thumb{background:var(--t-scroll);border:1px solid var(--t-bg);border-radius:8px}
+.theme-zinc-spotlight-ui a:focus-visible,.theme-zinc-spotlight-ui button:focus-visible,.theme-zinc-spotlight-ui input:focus-visible,
+.theme-zinc-spotlight-ui textarea:focus-visible,.theme-zinc-spotlight-ui select:focus-visible,.theme-zinc-spotlight-ui .forum-row:focus-visible{outline:2px solid var(--t-accent);outline-offset:2px}
+.theme-zinc-spotlight-ui a,.theme-zinc-spotlight-ui .forum-row{color:var(--t-link)}
+.theme-zinc-spotlight-ui .site-header{background:var(--t-header-bg);border-bottom:1px solid var(--t-hair);box-shadow:none}
+.theme-zinc-spotlight-ui .brand{color:var(--t-ink);font-weight:750;letter-spacing:-.02em;font-family:var(--t-display)}
+.theme-zinc-spotlight-ui .brand:hover{color:var(--t-link)}
+.theme-zinc-spotlight-ui .brand-logo{background:var(--t-accent);color:var(--t-brand-fg);box-shadow:none}
+.theme-zinc-spotlight-ui .brand-img{border:1px solid var(--t-hair2)}
+.theme-zinc-spotlight-ui .header-search input{background-color:var(--t-panel);border:1px solid var(--t-hair2);color:var(--t-ink);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='none' stroke='%23A1A1AA' stroke-width='2' viewBox='0 0 24 24'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-4-4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:12px center}
+.theme-zinc-spotlight-ui .header-search input::placeholder{color:var(--t-mute)}
+.theme-zinc-spotlight-ui .header-search input:focus{border-color:var(--t-accent);box-shadow:0 0 0 3px var(--t-accent-soft)}
+.theme-zinc-spotlight-ui .header-icon{color:var(--t-mute)}
+.theme-zinc-spotlight-ui .header-icon:hover{color:var(--t-ink);background:var(--t-panel2)}
+.theme-zinc-spotlight-ui .header-avatar,.theme-zinc-spotlight-ui .header-avatar-letter{background:var(--t-accent-deep);color:var(--t-brand-fg)}
+.theme-zinc-spotlight-ui .header-username{color:var(--t-ink)}
+.theme-zinc-spotlight-ui .header-admin-tag{background:var(--t-panel2);color:var(--t-link);border:1px solid var(--t-hair)}
+.theme-zinc-spotlight-ui .header-logout{background:transparent;border:1px solid var(--t-hair2);color:var(--t-danger)}
+.theme-zinc-spotlight-ui .header-logout:hover{background:var(--t-accent-soft);border-color:var(--t-danger)}
+.theme-zinc-spotlight-ui .header-new-btn{box-shadow:var(--shadow-hover)}
+.theme-zinc-spotlight-ui .header-new-btn:hover{transform:none}
+.theme-zinc-spotlight-ui .card,.theme-zinc-spotlight-ui .detail-comments .comment-item,.theme-zinc-spotlight-ui .comment-item{box-shadow:var(--shadow-card)}
+.theme-zinc-spotlight-ui .btn{box-shadow:var(--shadow-hover)}
+.theme-zinc-spotlight-ui .btn:hover{box-shadow:var(--shadow-hover);transform:none;filter:brightness(1.08)}
+.theme-zinc-spotlight-ui .btn:active{transform:scale(.97)}
+.theme-zinc-spotlight-ui .btn-primary{background:var(--t-accent-deep);color:var(--t-brand-fg)}
+.theme-zinc-spotlight-ui .btn-outline{border-color:var(--t-hair2);color:var(--t-ink)}
+.theme-zinc-spotlight-ui .flash.success{color:var(--t-ok)}
+.theme-zinc-spotlight-ui .flash.error{color:var(--t-danger);border-color:var(--t-hair2)}
+.theme-zinc-spotlight-ui .badge{background:var(--t-panel2);color:var(--t-ink2)}
+.theme-zinc-spotlight-ui .badge.primary{background:var(--t-accent-soft);color:var(--t-link)}
+.theme-zinc-spotlight-ui .badge.pin{background:var(--t-accent-soft);color:var(--t-accent)}
+.theme-zinc-spotlight-ui .badge.locked,.theme-zinc-spotlight-ui .badge.admin{color:var(--t-link)}
+.theme-zinc-spotlight-ui .input,.theme-zinc-spotlight-ui .textarea,.theme-zinc-spotlight-ui .select{background:var(--t-panel);border-color:var(--t-hair2);color:var(--t-ink)}
+.theme-zinc-spotlight-ui .input:focus,.theme-zinc-spotlight-ui .textarea:focus,.theme-zinc-spotlight-ui .select:focus{border-color:var(--t-accent);box-shadow:0 0 0 3px var(--t-accent-soft)}
+.theme-zinc-spotlight-ui .forum-toolbar{border-bottom-color:var(--t-hair)}
+.theme-zinc-spotlight-ui .forum-tabs a{color:var(--t-mute)}
+.theme-zinc-spotlight-ui .forum-tabs a:hover,.theme-zinc-spotlight-ui .forum-tabs a.active{color:var(--t-ink)}
+.theme-zinc-spotlight-ui .forum-tabs a.active{border-bottom-color:var(--t-accent);font-weight:700}
+.theme-zinc-spotlight-ui .forum-new{background:var(--t-accent-deep);color:var(--t-brand-fg)}
+.theme-zinc-spotlight-ui .forum-row{border-bottom-color:var(--t-hair)}
+.theme-zinc-spotlight-ui .forum-row:not(.forum-thead):hover{background:var(--t-panel2)}
+.theme-zinc-spotlight-ui .forum-thead{color:var(--t-mute)}
+.theme-zinc-spotlight-ui .cell-title{color:var(--t-ink)}
+.theme-zinc-spotlight-ui .cell-cat,.theme-zinc-spotlight-ui .cell-author,.theme-zinc-spotlight-ui .cell-date,.theme-zinc-spotlight-ui .cell-num{color:var(--t-ink2)}
+.theme-zinc-spotlight-ui .forum-row .cell-num{font-family:var(--font-mono)}
+.theme-zinc-spotlight-ui .pin-dot{color:var(--t-accent)}
+.theme-zinc-spotlight-ui .forum-empty,.theme-zinc-spotlight-ui .forum-pagination{color:var(--t-mute)}
+.theme-zinc-spotlight-ui .forum-pagination a{color:var(--t-link)}
+.theme-zinc-spotlight-ui .composer-card,.theme-zinc-spotlight-ui .side-card,.theme-zinc-spotlight-ui .pill,.theme-zinc-spotlight-ui .home-pagination a{background:var(--t-panel);box-shadow:var(--shadow-card)}
+.theme-zinc-spotlight-ui .composer-input{background:var(--t-panel2);color:var(--t-mute)}
+.theme-zinc-spotlight-ui .composer-input:hover{background:var(--t-panel2);color:var(--t-ink2)}
+.theme-zinc-spotlight-ui .pill{color:var(--t-ink2);border-color:var(--t-hair)}
+.theme-zinc-spotlight-ui .pill.active{background:var(--t-accent-deep);color:var(--t-brand-fg);border-color:var(--t-accent-deep)}
+.theme-zinc-spotlight-ui .result-count,.theme-zinc-spotlight-ui .home-pagination,.theme-zinc-spotlight-ui .cat-count,.theme-zinc-spotlight-ui .site-footer p{color:var(--t-mute)}
+.theme-zinc-spotlight-ui .post-row{border-bottom-color:var(--t-hair)}
+.theme-zinc-spotlight-ui .post-row:hover{background:var(--t-panel2)}
+.theme-zinc-spotlight-ui .post-row-title,.theme-zinc-spotlight-ui .side-card h3,.theme-zinc-spotlight-ui .cat-item{color:var(--t-ink)}
+.theme-zinc-spotlight-ui .post-row-meta{color:var(--t-mute)}
+.theme-zinc-spotlight-ui .post-row-author{color:var(--t-ink2)}
+.theme-zinc-spotlight-ui .post-cat-tag,.theme-zinc-spotlight-ui .post-cat-tag.general,.theme-zinc-spotlight-ui .post-cat-tag.tech,.theme-zinc-spotlight-ui .post-cat-tag.random{background:var(--t-accent-soft);color:var(--t-link)}
+.theme-zinc-spotlight-ui .home-pagination a{color:var(--t-ink2);border-color:var(--t-hair)}
+.theme-zinc-spotlight-ui .side-card>p{color:var(--t-ink2)}
+.theme-zinc-spotlight-ui .cat-item:hover{background:var(--t-panel2)}
+.theme-zinc-spotlight-ui .cat-item.active{background:var(--t-panel2);color:var(--t-link)}
+.theme-zinc-spotlight-ui .cat-item.active .cat-count{color:var(--t-link)}
+.theme-zinc-spotlight-ui .site-footer{border-top-color:var(--t-hair)}
+.theme-zinc-spotlight-ui .detail-title,.theme-zinc-spotlight-ui .comments-title,.theme-zinc-spotlight-ui .page-heading h1,
+.theme-zinc-spotlight-ui .auth-card h1,.theme-zinc-spotlight-ui .profile-name,.theme-zinc-spotlight-ui .settings-panel h2,.theme-zinc-spotlight-ui .modal h3{font-family:var(--t-display);font-weight:800;letter-spacing:-.02em}
+.theme-zinc-spotlight-ui .detail-meta{border-bottom-color:var(--t-hair);color:var(--t-mute)}
+.theme-zinc-spotlight-ui .detail-back,.theme-zinc-spotlight-ui .detail-edit{color:var(--t-mute)}
+.theme-zinc-spotlight-ui .detail-back:hover{color:var(--t-link)}
+.theme-zinc-spotlight-ui .detail-body,.theme-zinc-spotlight-ui .markdown{color:var(--t-ink2)}
+.theme-zinc-spotlight-ui .detail-body h1,.theme-zinc-spotlight-ui .detail-body h2,.theme-zinc-spotlight-ui .detail-body h3,
+.theme-zinc-spotlight-ui .markdown h1,.theme-zinc-spotlight-ui .markdown h2,.theme-zinc-spotlight-ui .markdown h3{color:var(--t-ink)}
+.theme-zinc-spotlight-ui .detail-body a,.theme-zinc-spotlight-ui .markdown a{color:var(--t-link)}
+.theme-zinc-spotlight-ui .detail-body pre,.theme-zinc-spotlight-ui .markdown pre{background:var(--t-panel2);color:var(--t-ink);border:1px solid var(--t-hair);border-radius:var(--radius-sm)}
+.theme-zinc-spotlight-ui .detail-body :not(pre)>code,.theme-zinc-spotlight-ui .markdown code.md-code{background:var(--t-panel2);color:var(--t-link);border:1px solid var(--t-hair)}
+.theme-zinc-spotlight-ui .detail-body blockquote,.theme-zinc-spotlight-ui .markdown blockquote{background:var(--t-panel2);color:var(--t-ink2);border-left:1px solid var(--t-accent)}
+.theme-zinc-spotlight-ui .detail-body table,.theme-zinc-spotlight-ui .markdown table,.theme-zinc-spotlight-ui .detail-body th,.theme-zinc-spotlight-ui .detail-body td,.theme-zinc-spotlight-ui .markdown th,.theme-zinc-spotlight-ui .markdown td{border-color:var(--t-hair)}
+.theme-zinc-spotlight-ui .markdown th{background:var(--t-panel2);color:var(--t-ink2)}
+.theme-zinc-spotlight-ui .markdown hr{border-top-color:var(--t-hair)}
+.theme-zinc-spotlight-ui .detail-actions{border-top-color:var(--t-hair)}
+.theme-zinc-spotlight-ui .detail-likers{color:var(--t-mute)}
+.theme-zinc-spotlight-ui .like-btn{background:var(--t-panel);border-color:var(--t-hair2);color:var(--t-ink2)}
+.theme-zinc-spotlight-ui .like-btn:hover{border-color:var(--t-accent)}
+.theme-zinc-spotlight-ui .like-btn.liked{background:var(--t-accent-soft);border-color:var(--t-accent);color:var(--t-link)}
+.theme-zinc-spotlight-ui .detail-delete{color:var(--t-danger)}
+.theme-zinc-spotlight-ui .toc-title{color:var(--t-link)}
+.theme-zinc-spotlight-ui #toc-list a{color:var(--t-mute)}
+.theme-zinc-spotlight-ui #toc-list a:hover,.theme-zinc-spotlight-ui #toc-list a.active{color:var(--t-link)}
+.theme-zinc-spotlight-ui .detail-comments{border-top-color:var(--t-hair)}
+.theme-zinc-spotlight-ui .comments-empty,.theme-zinc-spotlight-ui .comment-login{color:var(--t-mute)}
+.theme-zinc-spotlight-ui .detail-comments .comment-children .comment-item,.theme-zinc-spotlight-ui .comment-children .comment-item{background:var(--t-panel2)}
+.theme-zinc-spotlight-ui .comment-author{border-left-color:var(--t-hair)}
+.theme-zinc-spotlight-ui .comment-author strong{color:var(--t-ink)}
+.theme-zinc-spotlight-ui .comment-time{color:var(--t-mute)}
+.theme-zinc-spotlight-ui .comment-text{color:var(--t-ink2)}
+.theme-zinc-spotlight-ui .comment-actions button{color:var(--t-mute)}
+.theme-zinc-spotlight-ui .comment-actions button:hover{color:var(--t-link)}
+.theme-zinc-spotlight-ui .comment-compose textarea{background:var(--t-panel);border-color:var(--t-hair2);color:var(--t-ink)}
+.theme-zinc-spotlight-ui .comment-compose textarea:focus{border-color:var(--t-accent)}
+.theme-zinc-spotlight-ui .editor-toolbar{background:var(--t-panel2);border-color:var(--t-hair2)}
+.theme-zinc-spotlight-ui .editor-toolbar button{background:var(--t-panel);color:var(--t-ink2);border:1px solid var(--t-hair)}
+.theme-zinc-spotlight-ui .editor-toolbar button:hover{background:var(--t-accent-deep);color:var(--t-brand-fg)}
+.theme-zinc-spotlight-ui .editor-preview{border-color:var(--t-hair2)}
+.theme-zinc-spotlight-ui .auth-card .subtitle,.theme-zinc-spotlight-ui .profile-bio{color:var(--t-ink2)}
+.theme-zinc-spotlight-ui .profile-banner{background:var(--t-accent)}
+.theme-zinc-spotlight-ui .profile-stats{border-color:var(--t-hair)}
+.theme-zinc-spotlight-ui .profile-stats strong{font-family:var(--font-mono)}
+.theme-zinc-spotlight-ui .profile-stats span{color:var(--t-mute)}
+.theme-zinc-spotlight-ui .settings-nav button:hover,.theme-zinc-spotlight-ui .admin-sidebar button:hover{background:var(--t-panel2)}
+.theme-zinc-spotlight-ui .settings-nav button.active{background:var(--t-panel2);color:var(--t-link)}
+.theme-zinc-spotlight-ui .admin-sidebar button.active{background:var(--t-accent-deep);color:var(--t-brand-fg)}
+.theme-zinc-spotlight-ui .form-section-title{color:var(--t-link);border-bottom-color:var(--t-hair)}
+.theme-zinc-spotlight-ui .data-table th{border-bottom-color:var(--t-hair2)}
+.theme-zinc-spotlight-ui .data-table td{border-bottom-color:var(--t-hair)}
+.theme-zinc-spotlight-ui .data-table tr:hover td{background:var(--t-panel2)}
+.theme-zinc-spotlight-ui .stat-icon{background:var(--t-panel2);border:1px solid var(--t-hair)}
+.theme-zinc-spotlight-ui .stat-num{font-family:var(--font-mono)}
+.theme-zinc-spotlight-ui .stat-label{color:var(--t-mute)}
+.theme-zinc-spotlight-ui .theme-chip{background:var(--t-panel2);border-color:var(--t-hair);color:var(--t-ink2)}
+.theme-zinc-spotlight-ui .theme-chip:hover,.theme-zinc-spotlight-ui .theme-chip.active{border-color:var(--t-accent);color:var(--t-link)}
+.theme-zinc-spotlight-ui .theme-chip-swatch{border-color:var(--t-hair2)}
+.theme-zinc-spotlight-ui .dropdown,.theme-zinc-spotlight-ui .popover,.theme-zinc-spotlight-ui .modal{background:var(--t-panel2);border:1px solid var(--t-hair2);box-shadow:var(--shadow-hover)}
+.theme-zinc-spotlight-ui .dropdown a:hover,.theme-zinc-spotlight-ui .dropdown button:hover{background:var(--t-panel);color:var(--t-ink)}
+.theme-zinc-spotlight-ui .modal-overlay{background:rgba(0,0,0,.55)}
+.theme-zinc-spotlight-ui .toast{background:var(--t-panel2);border-color:var(--t-hair2);box-shadow:var(--shadow-hover)}
+.theme-zinc-spotlight-ui img{background-color:var(--t-panel)}
+.theme-zinc-spotlight-ui .avatar,.theme-zinc-spotlight-ui .post-author-avatar,.theme-zinc-spotlight-ui .header-avatar,.theme-zinc-spotlight-ui .profile-avatar{border:1px solid var(--t-hair)}
+.theme-zinc-spotlight-ui iframe,.theme-zinc-spotlight-ui video,.theme-zinc-spotlight-ui embed{border:1px solid var(--t-hair);background:var(--t-panel)}
+.theme-zinc-spotlight-ui input[type='date']::-webkit-calendar-picker-indicator{filter:invert(.85);cursor:pointer}
+.theme-zinc-spotlight-ui .data-table th{background:var(--t-panel2)}
+.theme-zinc-spotlight-ui select option{background:var(--t-panel);color:var(--t-ink)}
+.theme-zinc-spotlight-ui{background-image:radial-gradient(rgba(255,255,255,.075) 1px,transparent 1px);background-size:26px 26px;background-attachment:fixed}
+.theme-zinc-spotlight-ui .site-header{backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.theme-zinc-spotlight-ui .side-card:hover::before{opacity:1}
+.theme-zinc-spotlight-ui .pill{border:1px solid var(--t-accent);color:var(--t-accent);background:transparent;border-radius:var(--radius-full)}
+.theme-zinc-spotlight-ui .pill.active{background:var(--t-accent);color:var(--t-brand-fg)}
+@media(max-width:480px){
+	.theme-zinc-spotlight-ui{background-attachment:scroll}
+}
+@media(prefers-reduced-motion:reduce){
+	.theme-zinc-spotlight-ui *,.theme-zinc-spotlight-ui *::before,.theme-zinc-spotlight-ui *::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
+
+/* 已删除 3 条占流装饰伪元素（刊头/编号角标）：布局骨架优先，气质由配色与字体体现 */

@@ -5,7 +5,7 @@
  */
 import type { Ctx } from '../lib/ctx';
 import {
-  auditLog, e, err, mbLen, ok, publicUser, randomToken, rateLimit, validEmail, validateUsername,
+  auditLog, DEFAULT_SITE_TITLE, e, err, mbLen, ok, publicUser, randomToken, rateLimit, validEmail, validateUsername,
 } from '../lib/core';
 import {
   currentUser, hashPassword, loginAs, logoutNow, requireCsrf, requireUser,
@@ -27,7 +27,7 @@ const TOKEN_24H = 24 * 3600;
 export async function apiConfig(ctx: Ctx): Promise<void> {
   const user = await currentUser(ctx);
   ok({
-    site_title: await ctx.settings.get('site_title', 'TForum'),
+    site_title: await ctx.settings.get('site_title', DEFAULT_SITE_TITLE),
     site_description: await ctx.settings.get('site_description', ''),
     site_primary_color: await ctx.settings.get('site_primary_color', '#4f46e5'),
     site_favicon_url: await ctx.settings.get('site_favicon_url', ''),
