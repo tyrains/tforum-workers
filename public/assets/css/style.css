@@ -842,7 +842,7 @@ body.theme-editorial .header-logout { border: 0; background: none; color: #96908
 body.theme-editorial .header-admin-tag,
 body.theme-editorial .header-lang { display: none; }
 body.theme-editorial .site-footer { border-top-color: #e7e1d6; }
-body.theme-editorial .site-footer p { text-align: left; }
+body.theme-editorial .site-footer p { text-align: center; }
 body.theme-editorial .detail-title { font-family: 'Noto Serif SC', 'Songti SC', Georgia, serif; font-weight: 700; }
 body.theme-editorial .detail-body pre,
 body.theme-editorial .detail-body :not(pre) > code { background: #f3eee4; }
@@ -880,7 +880,7 @@ body.theme-tool .header-logout { border: 0; background: none; color: #6b7280; }
 body.theme-tool .header-admin-tag,
 body.theme-tool .header-lang { display: none; }
 body.theme-tool .site-footer { border-top-color: #e5e7eb; }
-body.theme-tool .site-footer p { text-align: left; }
+body.theme-tool .site-footer p { text-align: center; }
 body.theme-tool .detail-title { font-family: inherit; font-weight: 800; letter-spacing: -.6px; }
 
 /* ---------- 标题字体统一：与正文同族，仅靠字重区分层级 ----------
